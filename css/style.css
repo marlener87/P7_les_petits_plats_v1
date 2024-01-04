@@ -1,0 +1,18 @@
+* {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.headerPage {
+    background: url(https://www.figma.com/file/LY5VQTAqnrAf0bWObOBrt8/Les-petits-plats---Maquette-2.0?type=design&node-id=92376-547&mode=dev);
+    width: 100%;
+    height: 200px;
+    top: 0;
+    background-color: blueviolet;
+}
+
+.titleHeader {
+    color: burlywood;
+}
