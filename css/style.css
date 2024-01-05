@@ -178,6 +178,9 @@ body {
 
 .cardsRecipe {
     padding: 15px 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 /* CARD RECIPE */
@@ -190,6 +193,7 @@ body {
     flex-direction: column;
     text-decoration: none;
     color: black;
+    margin-bottom: 65px;
 }
 
 .imgRecipe {
