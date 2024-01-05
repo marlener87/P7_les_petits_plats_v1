@@ -250,6 +250,7 @@ body {
 
 .blockIngredient {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .ingredientQuantite:nth-child(odd) {
