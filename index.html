@@ -8,13 +8,141 @@
     <!--<link rel="stylesheet" href="css/normalize.css">-->
     <link rel="stylesheet" href="css/style.css">
 
+    <script src="https://kit.fontawesome.com/960c3e545d.js" crossorigin="anonymous"></script>
+    <script src="javascript/chevron.js" defer></script>
+
     <title>Les petits plats</title>
 </head>
 
 <body>
     <header class="headerPage">
-        <h1 class="titleHeader">CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN, SIMPLES ET DELICIEUSES</h1>
+        <div class="blockHeader">
+            <h1 class="titleHeader">CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES</h1>
+        </div>
+
+        <!-- BARRE DE RECHERCHE -->
+        <form class="blockForm">
+            <div class="form_conteneur">
+                <input class="recherche" type="text" name="input" value="Rechercher une recette, un ingrédient...">
+                <button class="submit">
+                    <span class="glass">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                </button>
+            </div>
+        </form>
     </header>
+
+    <!-- DROPDOWN -->
+    <nav class="blockNav">
+        <div class="blockDropdown">
+            <div class="dropdown">
+                <div class="select">
+                    <span class="selected">Ingrédients</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="menu">
+                    <li>Framer</li>
+                    <li>Sketch</li>
+                    <li>Invision Studio</li>
+                    <li class="active">Figma</li>
+                    <li>Adobe XD</li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <div class="select">
+                    <span class="selected">Appareils</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="menu">
+                    <li>CSS</li>
+                    <li>Javascript</li>
+                    <li>React</li>
+                    <li class="active">HTML</li>
+                    <li>Angular</li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <div class="select">
+                    <span class="selected">Ustensiles</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="menu">
+                    <li>CSS</li>
+                    <li>Javascript</li>
+                    <li>React</li>
+                    <li class="active">HTML</li>
+                    <li>Angular</li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="totalRecipes">1500 recettes</p>
+    </nav>
+
+    <!-- CARD RECIPE-->
+    <div class="cardsRecipe">
+        <a href="#" class="card lien">
+            <div class="cardImg">
+                <img src="assets/imgRecettes/Recette01.jpg" alt="lit superposé" class="imgRecipe">
+                <div class="timeRecipe">
+                    <span class="time">10 min</span>
+                </div>
+            </div>
+            <div class="cardBody">
+                <div class="blockTitleRecipe">
+                    <h2 class="nameRecipe">Limonade de coco</h2>
+                </div>
+
+                <div class="blockProcessRecipe">
+                    <h3 class="titleRecipe">RECETTE</h3>
+                    <p class="processRecipe">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque, placeat
+                        tenetur. Soluta temporibus quis ut quod necessitatibus ipsum pariatur facere voluptates, aperiam
+                        dolorum quidem voluptatibus sequi. Accusantium in ipsam non!
+                    </p>
+                </div>
+
+                <div class="blockIngredientsRecipe">
+                    <h3 class="titleIngredient">INGRÉDIENTS</h3>
+                    <div class="blockIngredient">
+                        <div class="ingredientQuantite">
+                            <h4 class="nameIngredient">Pâte sablée</h4>
+                            <p class="quantiteIngredient">1</p>
+                        </div>
+                        <div class="ingredientQuantite">
+                            <h4 class="nameIngredient">Chocolat au lait</h4>
+                            <p class="quantiteIngredient">300 grammes</p>
+                        </div>
+                    </div>
+
+                    <div class="blockIngredient">
+                        <div class="ingredientQuantite">
+                            <h4 class="nameIngredient">Pâte sablée</h4>
+                            <p class="quantiteIngredient">1</p>
+                        </div>
+                        <div class="ingredientQuantite">
+                            <h4 class="nameIngredient">Chocolat au lait</h4>
+                            <p class="quantiteIngredient">300 grammes</p>
+                        </div>
+                    </div>
+
+                    <div class="blockIngredient">
+                        <div class="ingredientQuantite">
+                            <h4 class="nameIngredient">Pâte sablée</h4>
+                            <p class="quantiteIngredient">1</p>
+                        </div>
+                        <div class="ingredientQuantite">
+                            <h4 class="nameIngredient">Chocolat au lait</h4>
+                            <p class="quantiteIngredient">300 grammes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+
 </body>
 
 </html>

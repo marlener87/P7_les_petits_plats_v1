@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap');
+
 * {
     padding: 0;
     margin: 0;
@@ -5,14 +8,258 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: #ededed;
+    font-family: Anton;
+}
+
 .headerPage {
-    background: url(https://www.figma.com/file/LY5VQTAqnrAf0bWObOBrt8/Les-petits-plats---Maquette-2.0?type=design&node-id=92376-547&mode=dev);
     width: 100%;
-    height: 200px;
+    height: 650px;
     top: 0;
-    background-color: blueviolet;
+    background-image: url(../assets/navBackground.png);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    object-fit: cover;
+}
+
+.blockHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 40px;
 }
 
 .titleHeader {
-    color: burlywood;
+    color: #FFD15B;
+    font-size: 44px;
+    font-weight: 400;
+    font-family: Anton;
+    width: 50%;
+    text-align: center;
+}
+
+/* BARRE DE RECHERCHE */
+.blockForm {
+    width: 900px;
+}
+
+.form_conteneur {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.recherche,
+.submit {
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+}
+
+.recherche {
+    height: 55px;
+    padding: 0 25px;
+    color: #7a7a7a;
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+}
+
+.submit {
+    background: black;
+    color: white;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 17px;
+    margin-right: 5px;
+}
+
+/* BARRE DE NAVIGATION */
+/* .blockNav {
+    padding: 15px 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}*/
+
+.blockNav {
+    min-height: 50px;
+    padding: 15px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.blockDropdown {
+    display: flex;
+}
+
+.dropdown {
+    min-width: 240px;
+    position: relative;
+    margin-right: 50px;
+    margin-top: 20px;
+}
+
+.dropdown * {
+    box-sizing: border-box;
+}
+
+.select {
+    background: white;
+    color: #1b1b1b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* Clicked styles */
+.caret {
+    width: 0;
+    height: 0;
+    transition: 0.3s;
+}
+
+.fa-chevron-down-rotate {
+    transform: rotate(180deg);
+}
+
+.menu {
+    list-style: none;
+    padding: 3px 8px;
+    border-radius: 0 0 8px 8px;
+    color: #1b1b1b;
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    opacity: 0;
+    display: none;
+    transition: 0.2s;
+    z-index: 1;
+    background: white;
+}
+
+.menu li {
+    padding: 11px 8px;
+    margin: 5px 0;
+    border-radius: 8px;
+    cursor: pointer;
+
+}
+
+.active {
+    background: #9fa5b5;
+}
+
+.menu-open {
+    display: block;
+    opacity: 1;
+}
+
+.totalRecipes {
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.cardsRecipe {
+    padding: 15px 100px;
+}
+
+/* CARD RECIPE */
+.card {
+    width: 380px;
+    height: 730px;
+    border-radius: 20px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+}
+
+.imgRecipe {
+    width: 380px;
+    height: 250px;
+    border-radius: 20px 20px 0 0;
+    object-fit: cover;
+}
+
+.cardBody {
+    padding: 25px;
+}
+
+.timeRecipe {
+    background: #FFD15B;
+    width: 68px;
+    border-radius: 50px;
+    padding: 5px 15px;
+    display: flex;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.time {
+    font-family: Manrope;
+    font-size: 12px;
+}
+
+.nameRecipe {
+    font-size: 18px;
+    font-weight: 400;
+    word-wrap: break-word;
+    margin-bottom: 30px;
+}
+
+.blockProcessRecipe,
+.blockIngredientsRecipe {
+    margin-bottom: 30px;
+    font-family: Manrope;
+}
+
+.titleRecipe,
+.titleIngredient {
+    color: #7A7A7A;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.processRecipe {
+    height: 90px;
+    overflow: hidden;
+}
+
+.blockIngredient {
+    display: flex;
+}
+
+.ingredientQuantite:nth-child(odd) {
+    margin-right: 50px;
+    margin-bottom: 20px;
+    width: 100px;
+}
+
+.nameIngredient {
+    font-size: 14px;
+    color: #1B1B1B;
+}
+
+.quantiteIngredient {
+    color: #7A7A7A;
+    font-size: 14px;
 }
