@@ -12,27 +12,24 @@ async function getRecipes() {
     return result
 };
 
-// function getIngredients(ingredients) {
-//     const divIngredients = document.createElement("div");
-//     divIngredients.classList.add("ingredientQuantite");
+function getIngredients(ingredients) {
+    ingredients.recipes[0].ingredients.forEach(ingredient => {
+        const divIngredients = document.createElement("div");
 
-//     let ingredientName;
+        const nomIngredient = ingredient.ingredient;
+        const quantity = ingredient.quantity;
+        const unite = ingredient.unit || '';
 
-//     for(const ingredient of ingredients) {
-//         ingredientName = document.createElement("h4");
-//         ingredientName.classList.add("nameIngredient");
-//         if(ingredient.unit === '' || ingredient.unit === null) {
-//             ingredientName.innerHTML = `
-//                 ${item.ingredients[0].ingredient} : ${item.ingredients[].quantity}
-//             `
-//         } else {
-//             ingredientName.innerHTML = `
-//             ${item.ingredients[0].ingredient} : ${item.ingredients[].quantity} ${item.ingredients[].unit}`
-//         }
-//     divIngredients.appendChild(ingredientName);
-//     }
-//     return divIngredients
-// }
+        divIngredients.innerHTML = `
+        <div class="ingredientQuantite">
+            <h4 class="nameIngredient">${nomIngredient}</h4>
+            <p class="quantiteIngredient">${quantity} ${unite}</p>
+        </div>
+        `
+        recipes.appendChild(divIngredients)
+    }) 
+    
+}
 
 /**
  * fonction qui va créer la carte de la recette, avec le titre, la photo, les ingrédients, le processus...
@@ -44,32 +41,27 @@ function displayRecipes(objectRecipes) {
         const divCard = document.createElement("a");
         divCard.classList.add("card");
 
+        const divBlockIngredient = document.createElement("div");
+        divBlockIngredient.classList.add("blockIngredient");
 
-        if((recipes.ingredients)) {
-            recipes.ingredients.forEach(ingredient => {
-                console.log(`ingredient : ${ingredient}`)
-            })
-        } else {
-            console.log('erreur');
-        }
-        // const divIngredients = document.createElement("div");
-        // divIngredients.classList.add("ingredientQuantite");
+        /* boucle pour avoir tous les ingrédients d'une recette ainsi que sa quantité et son unité */
+        item.ingredients.forEach(ingredient => {
+            const divIngredients = document.createElement("div");
+            divIngredients.classList.add("ingredientQuantite");
 
-        // let ingredientName;
+            const nomIngredient = ingredient.ingredient;
+            const quantity = ingredient.quantity || '';
+            const unite = ingredient.unit || '';
 
-        // for(const ingredient of ingredients) {
-        //     ingredientName = document.createElement("h4");
-        //     ingredientName.classList.add("nameIngredient");
-        //     if(ingredient.unit === '' || ingredient.unit === null) {
-        //         ingredientName.innerHTML = `
-        //             ${item.ingredients[0].ingredient} : ${item.ingredients.quantity}
-        //         `
-        //     } else {
-        //         ingredientName.innerHTML = `
-        //         ${item.ingredients[0].ingredient} : ${item.ingredients.quantity} ${item.ingredients.unit}`
-        //     }
-        // divIngredients.appendChild(ingredientName);
-        // }
+            divIngredients.innerHTML = `
+                    <h4 class="nameIngredient">${nomIngredient}</h4>
+                    <p class="quantiteIngredient">${quantity} ${unite}</p>
+            `
+            //console.log(divIngredients);
+            divBlockIngredient.appendChild(divIngredients);
+        });
+
+        
 
         divCard.innerHTML = `
             <div class="cardImg">
@@ -91,17 +83,17 @@ function displayRecipes(objectRecipes) {
 
                 <div class="blockIngredientsRecipe">
                     <h3 class="titleIngredient">INGRÉDIENTS</h3>
-                    <div class="blockIngredient">
-                        <div class="ingredientQuantite">
-                            <h4 class="nameIngredient">${item.ingredients[0].ingredient}</h4>
-                            <p class="quantiteIngredient">${item.ingredients[0].quantity} ${item.ingredients[0].unit}</p>
-                        </div>
-                    </div>
+                        ${divBlockIngredient.outerHTML}
                 </div>
             </div>
         `;
 
-        /* */
+        /* <div class="blockIngredient">
+
+                    </div><div class="ingredientQuantite">
+                            <h4 class="nameIngredient">${nomIngredient}</h4>
+                            <p class="quantiteIngredient">${quantity} ${unite}</p>
+                        </div> */
         /*${ingredientName} */ 
         recipes.appendChild(divCard);
     });
@@ -115,7 +107,7 @@ function displayRecipes(objectRecipes) {
 async function init() {
     const listRecipes = await getRecipes();
     displayRecipes(listRecipes);
-    // getIngredients(listRecipes);
+    //getIngredients(listRecipes);
 };
 
 init();
