@@ -510,7 +510,7 @@
                     "unit": "cuillère à soupe"
                 },
                 {
-                    "ingredient": "huile d'olive",
+                    "ingredient": "Huile d'olive",
                     "quantity": 2,
                     "unit": "cuillère à soupe"
                 }
@@ -637,7 +637,7 @@
                     "unit": "tiges"
                 },
                 {
-                    "ingredient": "huile d'olives",
+                    "ingredient": "Huile d'olives",
                     "quantity": 2,
                     "unit": "cuillère à soupe"
                 }
@@ -782,7 +782,7 @@
                     "unit": "grammes"
                 },
                 {
-                    "ingredient": "huile d'olive",
+                    "ingredient": "Huile d'olive",
                     "quantity": 1,
                     "unit": "cuillères à soupe"
                 }
@@ -816,14 +816,14 @@
                     "unit": "grammes"
                 },
                 {
-                    "ingredient": "Viande hachée 1% de matière grasse",
-                    "quantity": 400,
-                    "unit": "grammes"
-                },
-                {
                     "ingredient": "Vin rouge",
                     "quantity": 20,
                     "unit": "cl"
+                },
+                {
+                    "ingredient": "Viande hachée 1% de MG",
+                    "quantity": 400,
+                    "unit": "grammes"
                 },
                 {
                     "ingredient": "Crème fraîche",
@@ -990,13 +990,13 @@
                     "unit": "grammes"
                 },
                 {
+                    "ingredient": "Oeuf",
+                    "quantity": 1
+                },
+                {
                     "ingredient": "Chocolat noir en pépites",
                     "quantity": 100,
                     "unit": "grammes"
-                },
-                {
-                    "ingredient": "Oeuf",
-                    "quantity": 1
                 }
             ],
             "time": 30,

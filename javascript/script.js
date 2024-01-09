@@ -12,24 +12,23 @@ async function getRecipes() {
     return result
 };
 
-function getIngredients(ingredients) {
-    ingredients.recipes[0].ingredients.forEach(ingredient => {
-        const divIngredients = document.createElement("div");
+// function getIngredients(ingredients) {
+//     ingredients.recipes[0].ingredients.forEach(ingredient => {
+//         const divIngredients = document.createElement("div");
 
-        const nomIngredient = ingredient.ingredient;
-        const quantity = ingredient.quantity;
-        const unite = ingredient.unit || '';
+//         const nomIngredient = ingredient.ingredient;
+//         const quantity = ingredient.quantity;
+//         const unite = ingredient.unit || '';
 
-        divIngredients.innerHTML = `
-        <div class="ingredientQuantite">
-            <h4 class="nameIngredient">${nomIngredient}</h4>
-            <p class="quantiteIngredient">${quantity} ${unite}</p>
-        </div>
-        `
-        recipes.appendChild(divIngredients)
-    }) 
-    
-}
+//         divIngredients.innerHTML = `
+//         <div class="ingredientQuantite">
+//             <h4 class="nameIngredient">${nomIngredient}</h4>
+//             <p class="quantiteIngredient">${quantity} ${unite}</p>
+//         </div>
+//         `
+//         recipes.appendChild(divIngredients)
+//     }) 
+// }
 
 /**
  * fonction qui va créer la carte de la recette, avec le titre, la photo, les ingrédients, le processus...

@@ -145,7 +145,6 @@ body {
 
 .menu {
     list-style: none;
-    padding: 3px 8px;
     border-radius: 0 0 8px 8px;
     color: #1b1b1b;
     position: absolute;
@@ -161,15 +160,13 @@ body {
 }
 
 .menu li {
-    padding: 11px 8px;
+    padding: 11px 16px;
     margin: 5px 0;
-    border-radius: 8px;
     cursor: pointer;
-
 }
 
 .active {
-    background: #9fa5b5;
+    background: #FFD15B;
 }
 
 .menu-open {
@@ -236,16 +233,20 @@ body {
     margin-bottom: 30px;
 }
 
-.blockProcessRecipe,
-.blockIngredientsRecipe {
+.blockProcessRecipe {
     margin-bottom: 30px;
+    font-family: Manrope;
+}
+
+.blockIngredientsRecipe {
+    margin-bottom: 80px;
     font-family: Manrope;
 }
 
 .titleRecipe,
 .titleIngredient {
     color: #7A7A7A;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 12px;
 }
 
@@ -260,8 +261,8 @@ body {
 }
 
 .ingredientQuantite:nth-child(odd) {
-    margin-right: 50px;
-    margin-bottom: 20px;
+    margin-right: 75px;
+    margin-bottom: 15px;
     width: 100px;
 }
 
