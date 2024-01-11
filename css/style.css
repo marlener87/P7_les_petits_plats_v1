@@ -17,12 +17,16 @@ body {
     width: 100%;
     height: 650px;
     top: 0;
+
     background-image: url(../assets/navBackground.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    object-fit: cover;
+
 }
 
 .logo {
@@ -143,6 +147,8 @@ body {
     transform: rotate(180deg);
 }
 
+
+
 .menu {
     list-style: none;
     border-radius: 0 0 8px 8px;
@@ -163,6 +169,22 @@ body {
     padding: 11px 16px;
     margin: 5px 0;
     cursor: pointer;
+}
+
+.searchDropdown {
+    width: 100%;
+    height: 35px;
+    border-color: #c6c6c6;
+}
+
+.glassSearch {
+    position: absolute;
+    right: 30px;
+    top: 15px;
+}
+
+.glassDropdown {
+    color: #c6c6c6;
 }
 
 .active {
@@ -214,8 +236,10 @@ body {
     background: #FFD15B;
     width: 68px;
     border-radius: 50px;
-    padding: 5px 15px;
+    padding: 5px 0;
     display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -261,9 +285,9 @@ body {
 }
 
 .ingredientQuantite:nth-child(odd) {
-    margin-right: 75px;
+    margin-right: 50px;
     margin-bottom: 15px;
-    width: 100px;
+    width: 140px;
 }
 
 .nameIngredient {

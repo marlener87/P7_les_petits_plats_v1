@@ -1,101 +1,211 @@
-const recipes = document.querySelector(".cardsRecipe");
+// Partie recettes
+const recipesDOM = document.querySelector(".cardsRecipe");
+const totalRecipesDOM = document.querySelector(".totalRecipes");
+
+// Partie formulaire
+const formDOM = document.querySelector('#searchForm');
+const inputSearchDOM = document.querySelector('#searchInput');
+
+
+
 
 /**
- * function qui va chercher les données dans le fichier .json
- * @returns result
+ * Récupère les données dans le fichier recipes.json
+ * @returns Liste des recettes 
  */
 async function getRecipes() {
-    const result = await fetch("/javascript/recipes.json").then((res) => {
+   return await fetch("/javascript/recipes.json").then((res) => {
         return res.json();
+    })
+    .then(data => {
+        return data.recipes
     });
-
-    return result
 };
 
-// function getIngredients(ingredients) {
-//     ingredients.recipes[0].ingredients.forEach(ingredient => {
-//         const divIngredients = document.createElement("div");
+/**
+ * Ajoute dans le DOM toutes les recettes reçues en paramètre
+ * @params {object} listRecipes - La liste des recettes à afficher 
+ */
+function displayRecipes(listRecipes) {
+  
+    // Réinitialise l'affichage de la liste des recettes
+    recipesDOM.innerHTML = '';
 
-//         const nomIngredient = ingredient.ingredient;
-//         const quantity = ingredient.quantity;
-//         const unite = ingredient.unit || '';
+    // On parcours la liste des recettes reçue en paramètre
+    for (let i = 0; i < listRecipes.length; i++) {
+      const item = listRecipes[i]; // On récupère la recette courante
 
-//         divIngredients.innerHTML = `
-//         <div class="ingredientQuantite">
-//             <h4 class="nameIngredient">${nomIngredient}</h4>
-//             <p class="quantiteIngredient">${quantity} ${unite}</p>
-//         </div>
-//         `
-//         recipes.appendChild(divIngredients)
-//     }) 
-// }
+      // On créer le nouveau noeud correspondant à la carte d'une recette
+      const divCard = document.createElement("a");
+      divCard.classList.add("card");
+      divCard.setAttribute("href", "#");
+  
+      // On créer la partie ingredient de la recette
+      const divBlockIngredient = document.createElement("div");
+      divBlockIngredient.classList.add("blockIngredient");
+  
+      for (let j = 0; j < item.ingredients.length; j++) {
+        const ingredient = item.ingredients[j];
+        const divIngredients = document.createElement("div");
+        divIngredients.classList.add("ingredientQuantite");
+  
+        const nomIngredient = ingredient.ingredient;
+        const quantity = ingredient.quantity || '';
+        const unite = ingredient.unit || '';
+  
+        divIngredients.innerHTML = `
+            <h4 class="nameIngredient">${nomIngredient}</h4>
+            <p class="quantiteIngredient">${quantity} ${unite}</p>
+        `;
+  
+        divBlockIngredient.appendChild(divIngredients);
+      }
+  
+      // On complète le contenu du noeud de la recette
+      divCard.innerHTML = `
+          <div class="cardImg">
+              <img src="assets/imgRecettes/${item.image}" alt="limonade" class="imgRecipe">
+              <div class="timeRecipe">
+                  <span class="time">${item.time} min</span>
+              </div>
+          </div>
+          <div class="cardBody">
+              <div class="blockTitleRecipe">
+                  <h2 class="nameRecipe">${item.name}</h2>
+              </div>
+  
+              <div class="blockProcessRecipe">
+                  <h3 class="titleRecipe">RECETTE</h3>
+                  <p class="processRecipe">${item.description}</p>
+              </div>
+  
+              <div class="blockIngredientsRecipe">
+                  <h3 class="titleIngredient">INGRÉDIENTS</h3>
+                  ${divBlockIngredient.outerHTML}
+              </div>
+          </div>
+      `;
+  
+        // On ajoute le nouveau noeud de la recette dans le DOM
+        recipesDOM.appendChild(divCard);
+    }
+}
+
 
 /**
- * fonction qui va créer la carte de la recette, avec le titre, la photo, les ingrédients, le processus...
+* Affiche dans le DOM le nombre de recettes
+*/
+function displayCountTotalRecipes() {
+    const displayedRecipeCards = document.querySelectorAll(".card");
+    
+    totalRecipesDOM.innerHTML = displayedRecipeCards.length +
+         ' recette' + 
+        (displayedRecipeCards.length > 1 ? 's' : '');
+
+}
+
+
+/**
+ * Lance l'algorithme de tri quand on valide le formulaire
  */
-/* paramètre : , ingredients */
-function displayRecipes(objectRecipes) {
-    console.log('coucou');
-    objectRecipes.recipes.forEach((item) => {
-        const divCard = document.createElement("a");
-        divCard.classList.add("card");
+formDOM.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-        const divBlockIngredient = document.createElement("div");
-        divBlockIngredient.classList.add("blockIngredient");
+    // Récupération de toutes les recettes dans le fichier .json
+    const listRecipes = await getRecipes();
+    
+    // Tri des recettes avec l'algorithme custom
+    const recipesA4 = sortRecipes(listRecipes)
+    
+    // Il faut afficher recipesA4
+    console.log('recettes triées :')
+    console.log(recipesA4)
+    displayRecipes(recipesA4);
+    displayCountTotalRecipes();
+})
 
-        /* boucle pour avoir tous les ingrédients d'une recette ainsi que sa quantité et son unité */
-        item.ingredients.forEach(ingredient => {
-            const divIngredients = document.createElement("div");
-            divIngredients.classList.add("ingredientQuantite");
 
-            const nomIngredient = ingredient.ingredient;
-            const quantity = ingredient.quantity || '';
-            const unite = ingredient.unit || '';
+/**
+ * Trie les recettes
+ */
+function sortRecipes(recipes){
 
-            divIngredients.innerHTML = `
-                    <h4 class="nameIngredient">${nomIngredient}</h4>
-                    <p class="quantiteIngredient">${quantity} ${unite}</p>
-            `
-            //console.log(divIngredients);
-            divBlockIngredient.appendChild(divIngredients);
-        });
+    const recipesA1 = sortRecipesBySearch(recipes)
+    const recipesA2 = sortRecipesByIngredients(recipesA1)
+    const recipesA3 = sortRecipesByAppareils(recipesA2)
+    const recipesA4 = sortRecipesByUstensiles(recipesA3)
 
-        
+    return recipesA4
+}
 
-        divCard.innerHTML = `
-            <div class="cardImg">
-                <img src="assets/imgRecettes/${item.image}" alt="limonade" class="imgRecipe">
-                <div class="timeRecipe">
-                    <span class="time">${item.time} min</span>
-                </div>
-            </div>
-            <div class="cardBody">
-                <div class="blockTitleRecipe">
-                    <h2 class="nameRecipe">${item.name}</h2>
-                </div>
+/**
+ * Trie les recettes via la barre de recherche
+ * @params recipes - Liste de toutes les recettes à trier
+ */
+function sortRecipesBySearch(recipes){
 
-                <div class="blockProcessRecipe">
-                    <h3 class="titleRecipe">RECETTE</h3>
-                    <p class="processRecipe">${item.description}
-                    </p>
-                </div>
+    const recipesA1 = []
 
-                <div class="blockIngredientsRecipe">
-                    <h3 class="titleIngredient">INGRÉDIENTS</h3>
-                        ${divBlockIngredient.outerHTML}
-                </div>
-            </div>
-        `;
+    // Récupération du résultat de la barre de recherche
+    const userSearch = inputSearchDOM.value.toLowerCase();
 
-        /* <div class="blockIngredient">
+    // Parcours de la liste de toutes les recettes
+    for(let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
+   
+        // Est-ce que la recette comporte la recherche de l'utilisateur dans le titre ?
+        const title = recipe.name.toLowerCase()
+        if(title.includes(userSearch)) {
+             // OUI : On met cette recette dans recipesA1
+            recipesA1.push(recipe);    
+        } else {
+            console.log("non")
+            // NON :
+            // Est-ce que la recette comporte la recherche de l'utilisateur dans la description ?
+            const description = recipe.description.toLowerCase();
+            if(description.includes(userSearch)) {
+                // OUI : On met cette recette dans recipesA1
+                recipesA1.push(recipe);
+            } else {
+                // NON : 
+                // Est-ce que la recette comporte la recherche dans les ingredients ?
+                let ingredientFound = false;
+                for(let j = 0; j < recipe.ingredients.length; j++) {
+                    const ingredient = recipe.ingredients[j].ingredient.toLowerCase();
+                    if (ingredient.includes(userSearch)) {
+                        // OUI : On met cette recette dans recipesA1
+                        recipesA1.push(recipe);
+                        ingredientFound = true;
+                        break; // Sortir de la boucle si un ingrédient est trouvé
+                    }
+                } 
+            }          
+        }
+    }
+    return recipesA1;
+}
 
-                    </div><div class="ingredientQuantite">
-                            <h4 class="nameIngredient">${nomIngredient}</h4>
-                            <p class="quantiteIngredient">${quantity} ${unite}</p>
-                        </div> */
-        /*${ingredientName} */ 
-        recipes.appendChild(divCard);
-    });
+/**
+ * Trie les recettes via les filtres ingredients
+ */
+function sortRecipesByIngredients(recipesA1){
+    return recipesA1
+
+}
+
+/**
+ * Trie les recettes via les filtres appareils
+ */
+function sortRecipesByAppareils(recipesA2){
+    return recipesA2
+
+}
+
+/**
+ * Trie les recettes via les filtres ustensiles
+ */
+function sortRecipesByUstensiles(recipesA3){
+    return recipesA3
 
 }
 
@@ -106,7 +216,31 @@ function displayRecipes(objectRecipes) {
 async function init() {
     const listRecipes = await getRecipes();
     displayRecipes(listRecipes);
-    //getIngredients(listRecipes);
+    displayCountTotalRecipes();
 };
 
 init();
+
+
+
+
+/**
+ * ROADMAP: 
+ * - * Terminer l'algorigramme 
+ * 
+ * - * Réaliser lalgorithme sur la barre de recherche : sortRecipesBySearch
+ * - * Modifier l'affichage des recettes dans le DOM une fois que l'algorithme de trie a été effectué
+ * 
+ * - Remplir dynamiquement les dropdown filtres avec les bonnes informations
+ * - Réaliser les algorithmes de trie sortRecipesByIngredients, sortRecipesByAppareils, sortRecipesByUstensiles
+ * 
+ * - Améliorer les dropdown : 
+ *      - N'affricher que les informations des recettes qui matchent
+ *      - L'input de recherche dans les dropdown 
+ * 
+ * - Terminer la fiche d'investigation
+ * 
+ * - Sur une autre branche de git, remplacer toutes les boucles for par des boucles map
+ * - Faire le benchmark de différences de performences entre les algo
+ */
+

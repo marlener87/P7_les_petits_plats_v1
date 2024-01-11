@@ -1852,14 +1852,14 @@
                     "unit": "barquettes"
                 },
                 {
-                    "ingredient": "Champignons de paris",
-                    "quantity": 1,
-                    "unit": "boites"
-                },
-                {
                     "ingredient": "Gruyère",
                     "quantity": 200,
                     "unit": "grammes"
+                },
+                {
+                    "ingredient": "Champignons de paris",
+                    "quantity": 1,
+                    "unit": "boites"
                 }
             ],
             "time": 40,

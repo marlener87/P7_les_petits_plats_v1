@@ -17,16 +17,18 @@
 
 <body>
     <header class="headerPage">
-        <img src="assets/logo_petits_plats.svg" alt="logo" class="logo">
+        <img src="assets/logo.png" alt="logo" class="logo">
+
         <div class="blockHeader">
 
             <h1 class="titleHeader">CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES</h1>
         </div>
 
         <!-- BARRE DE RECHERCHE -->
-        <form class="blockForm">
+        <form class="blockForm" id="searchForm">
             <div class="form_conteneur">
-                <input class="recherche" type="text" name="input" value="Rechercher une recette, un ingrédient...">
+                <input class="recherche" id="searchInput" type="text" name="input"
+                    placeholder="Rechercher une recette, un ingrédient...">
                 <button class="submit">
                     <span class="glass">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -44,13 +46,22 @@
                     <span class="selected">Ingrédients</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
-                <ul class="menu">
-                    <li>Framer</li>
-                    <li>Sketch</li>
-                    <li>Invision Studio</li>
-                    <li class="active">Figma</li>
-                    <li>Adobe XD</li>
-                </ul>
+                <div class="list">
+                    <div class="searchContainerDropdown">
+                        <input type="search" class="searchDropdown">
+                        <span class="glassSearch">
+                            <i class="fa-solid fa-magnifying-glass glassDropdown"></i>
+                        </span>
+                    </div>
+                    <ul class="menu">
+                        <li>Framer</li>
+                        <li>Sketch</li>
+                        <li>Invision Studio</li>
+                        <li class="active">Figma</li>
+                        <li>Adobe XD</li>
+                    </ul>
+                </div>
+
             </div>
 
             <div class="dropdown">
@@ -82,12 +93,13 @@
             </div>
         </div>
 
-        <p class="totalRecipes">1500 recettes</p>
+        <p class="totalRecipes">-- recettes</p>
     </nav>
 
     <!-- CARD RECIPE-->
     <div class="cardsRecipe">
-        <a href="#" class="card lien">
+        <!--
+        <a href="#" class="card">
             <div class="cardImg">
                 <img src="assets/imgRecettes/Recette01.jpg" alt="limonade" class="imgRecipe">
                 <div class="timeRecipe">
@@ -652,6 +664,7 @@
                 </div>
             </div>
         </a>
+        -->
     </div>
 
 </body>
