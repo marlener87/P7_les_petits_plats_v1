@@ -6,9 +6,6 @@ const totalRecipesDOM = document.querySelector(".totalRecipes");
 const formDOM = document.querySelector('#searchForm');
 const inputSearchDOM = document.querySelector('#searchInput');
 
-
-
-
 /**
  * Récupère les données dans le fichier recipes.json
  * @returns Liste des recettes 
@@ -91,7 +88,6 @@ function displayRecipes(listRecipes) {
     }
 }
 
-
 /**
 * Affiche dans le DOM le nombre de recettes
 */
@@ -99,11 +95,9 @@ function displayCountTotalRecipes() {
     const displayedRecipeCards = document.querySelectorAll(".card");
     
     totalRecipesDOM.innerHTML = displayedRecipeCards.length +
-         ' recette' + 
+        ' recette' + 
         (displayedRecipeCards.length > 1 ? 's' : '');
-
 }
-
 
 /**
  * Lance l'algorithme de tri quand on valide le formulaire
@@ -129,7 +123,6 @@ formDOM.addEventListener('submit', async (event) => {
  * Trie les recettes
  */
 function sortRecipes(recipes){
-
     const recipesA1 = sortRecipesBySearch(recipes)
     const recipesA2 = sortRecipesByIngredients(recipesA1)
     const recipesA3 = sortRecipesByAppareils(recipesA2)
@@ -143,8 +136,7 @@ function sortRecipes(recipes){
  * @params recipes - Liste de toutes les recettes à trier
  */
 function sortRecipesBySearch(recipes){
-
-    const recipesA1 = []
+    const recipesA1 = [];
 
     // Récupération du résultat de la barre de recherche
     const userSearch = inputSearchDOM.value.toLowerCase();
@@ -188,15 +180,81 @@ function sortRecipesBySearch(recipes){
 /**
  * Trie les recettes via les filtres ingredients
  */
+// parametre : recipesA1
 function sortRecipesByIngredients(recipesA1){
-    return recipesA1
+    const allIngredients = [];
+    const listeIngredients = document.getElementById("ingredients");
+    //listeIngredients.classList.add("menu");
+    const ulElement = document.createElement("ul");
+    ulElement.classList.add("menu");
 
+    recipesA1.forEach(recipe => {
+        recipe.ingredients.forEach(ingredient => {
+            allIngredients.push(ingredient.ingredient.toLowerCase());
+            //console.log(recipe);  
+            //console.log(ingredient);
+            //console.log(allIngredients);
+        }); 
+    });
+
+    
+    const uniqueIngredient = [... new Set(allIngredients)];
+
+    // Ajouter chaque ingrédient comme un élément de liste (li)
+    uniqueIngredient.forEach(ingredient => {
+        const liElement = document.createElement("li");
+        liElement.textContent = ingredient;
+        ulElement.appendChild(liElement);
+    });
+    
+    // Ajouter la liste à votre conteneur dans le DOM
+    listeIngredients.appendChild(ulElement);
+
+
+    return recipesA1;
+    //return (recipesA1, uniqueIngredient);
+    //console.log(recipesA1);
+    //console.log(uniqueIngredient);
+    //return uniqueIngredient;
 }
 
 /**
  * Trie les recettes via les filtres appareils
  */
 function sortRecipesByAppareils(recipesA2){
+    // const allAppareils = [];
+    // const listeAppareils = document.getElementById("appareils");
+    // const ulElement = document.createElement("ul");
+    // ulElement.classList.add("menu");
+
+    // Object.keys(items).forEach(key => {
+    //     const item = items[key];
+    //     const liElement = document.createElement("li");
+    //     liElement.textContent = item.toLowerCase();
+
+    //     ulElement.appendChild(liElement)
+    // });
+
+    // listeAppareils.appendChild(ulElement);
+
+    // recipesA2.forEach(recipeA1 => {
+    //     recipeA1.appliance.forEach(appliance => {
+    //         console.log('hey');
+    //         //allAppareils.push(appliance.toLowerCase());
+    //         console.log(appliance);
+    //     });
+    // })
+
+    // const uniqueAppareil = [... new Set(allAppareils)];
+
+    // uniqueAppareil.forEach(appareil => {
+    //     const liElement = document.createElement("li");
+    //     liElement.textContent = appareil;
+    //     ulElement.appendChild(liElement);
+    // });
+
+    // listeAppareils.appendChild(ulElement);
+
     return recipesA2
 
 }
@@ -208,7 +266,6 @@ function sortRecipesByUstensiles(recipesA3){
     return recipesA3
 
 }
-
 
 /**
  * 1ère fonction de la page qui est appelée et qui appelle toutes les autres
@@ -222,8 +279,6 @@ async function init() {
 init();
 
 
-
-
 /**
  * ROADMAP: 
  * - * Terminer l'algorigramme 
@@ -231,11 +286,11 @@ init();
  * - * Réaliser lalgorithme sur la barre de recherche : sortRecipesBySearch
  * - * Modifier l'affichage des recettes dans le DOM une fois que l'algorithme de trie a été effectué
  * 
- * - Remplir dynamiquement les dropdown filtres avec les bonnes informations
- * - Réaliser les algorithmes de trie sortRecipesByIngredients, sortRecipesByAppareils, sortRecipesByUstensiles
+ * - Remplir dynamiquement les dropdowns filtres avec les bonnes informations
+ * - Réaliser les algorithmes de tri sortRecipesByIngredients, sortRecipesByAppareils, sortRecipesByUstensiles
  * 
- * - Améliorer les dropdown : 
- *      - N'affricher que les informations des recettes qui matchent
+ * - Améliorer les dropdowns : 
+ *      - N'afficher que les informations des recettes qui matchent
  *      - L'input de recherche dans les dropdown 
  * 
  * - Terminer la fiche d'investigation

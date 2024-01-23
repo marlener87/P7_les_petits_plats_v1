@@ -147,8 +147,6 @@ body {
     transform: rotate(180deg);
 }
 
-
-
 .menu {
     list-style: none;
     border-radius: 0 0 8px 8px;
@@ -169,6 +167,10 @@ body {
     padding: 11px 16px;
     margin: 5px 0;
     cursor: pointer;
+}
+
+.list {
+    top: -50px;
 }
 
 .searchDropdown {

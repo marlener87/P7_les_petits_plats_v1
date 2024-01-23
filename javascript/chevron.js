@@ -11,6 +11,8 @@ dropdowns.forEach(dropdown => {
 
     // Add a click event to the select element
     select.addEventListener('click', () => {
+        //event.preventDefault();
+
         select.classList.toggle('select-clicked');
         chevron.classList.toggle('fa-chevron-down-rotate');
         menu.classList.toggle('menu-open');
