@@ -135,4 +135,37 @@
 // }
 
 
-/* BOUCLE FOR */
+/* DROPDOWN */
+// const allAppareils = [];
+    // const listeAppareils = document.getElementById("appareils");
+    // const ulElement = document.createElement("ul");
+    // ulElement.classList.add("menu");
+
+    // Object.keys(items).forEach(key => {
+    //     const item = items[key];
+    //     const liElement = document.createElement("li");
+    //     liElement.textContent = item.toLowerCase();
+
+    //     ulElement.appendChild(liElement)
+    // });
+
+    // listeAppareils.appendChild(ulElement);
+
+    // recipesA2.forEach(recipeA1 => {
+    //     recipeA1.appliance.forEach(appliance => {
+    //         console.log('hey');
+    //         //allAppareils.push(appliance.toLowerCase());
+    //         console.log(appliance);
+    //     });
+    // })
+
+    // const uniqueAppareil = [... new Set(allAppareils)];
+
+    // uniqueAppareil.forEach(appareil => {
+    //     const liElement = document.createElement("li");
+    //     liElement.textContent = appareil;
+    //     ulElement.appendChild(liElement);
+    // });
+
+    // listeAppareils.appendChild(ulElement);
+    //const allAppareils = [];

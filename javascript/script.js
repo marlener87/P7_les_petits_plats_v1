@@ -2,6 +2,8 @@
 const recipesDOM = document.querySelector(".cardsRecipe");
 const totalRecipesDOM = document.querySelector(".totalRecipes");
 
+const ingredientsListDOM = document.getElementById("ingredients");
+
 // Partie formulaire
 const formDOM = document.querySelector('#searchForm');
 const inputSearchDOM = document.querySelector('#searchInput');
@@ -111,6 +113,15 @@ formDOM.addEventListener('submit', async (event) => {
     // Tri des recettes avec l'algorithme custom
     const recipesA4 = sortRecipes(listRecipes)
     
+    // Affichage tags ingrédients
+    const ingredientsList = getIngredientsList(recipesA4)
+    displayIngredientsTags(ingredientsList)
+
+    // Affichage tags appareils
+
+    // Affichage tags ustensiles
+
+
     // Il faut afficher recipesA4
     console.log('recettes triées :')
     console.log(recipesA4)
@@ -124,11 +135,14 @@ formDOM.addEventListener('submit', async (event) => {
  */
 function sortRecipes(recipes){
     const recipesA1 = sortRecipesBySearch(recipes)
-    const recipesA2 = sortRecipesByIngredients(recipesA1)
-    const recipesA3 = sortRecipesByAppareils(recipesA2)
-    const recipesA4 = sortRecipesByUstensiles(recipesA3)
+    
+    //const recipesA2 = sortRecipesByIngredients(recipesA1)
+    
+    //const recipesA3 = sortRecipesByAppareils(recipesA2)
+    
+    //const recipesA4 = sortRecipesByUstensiles(recipesA3)
 
-    return recipesA4
+    return recipesA1
 }
 
 /**
@@ -177,101 +191,188 @@ function sortRecipesBySearch(recipes){
     return recipesA1;
 }
 
-/**
- * Trie les recettes via les filtres ingredients
- */
-// parametre : recipesA1
-function sortRecipesByIngredients(recipesA1){
-    const allIngredients = [];
-    const listeIngredients = document.getElementById("ingredients");
-    //listeIngredients.classList.add("menu");
-    const ulElement = document.createElement("ul");
-    ulElement.classList.add("menu");
+// /**
+//  * Trie les recettes via les filtres ingredients
+//  */
+// // parametre : recipesA1
+// function sortRecipesByIngredients(recipesA1){
+//     const allIngredients = [];
+//     const listeIngredients = document.getElementById("ingredients");
+//     //listeIngredients.classList.add("menu");
+//     const ulElement = document.createElement("ul");
+//     ulElement.classList.add("menu");
 
-    recipesA1.forEach(recipe => {
+//     recipesA1.forEach(recipe => {
+//         recipe.ingredients.forEach(ingredient => {
+//             allIngredients.push(ingredient.ingredient.toLowerCase());
+//             //console.log(recipe);  
+//             //console.log(ingredient);
+//             //console.log(allIngredients);
+//         }); 
+//     });
+
+    
+//     const uniqueIngredient = [... new Set(allIngredients)];
+
+//     // Ajouter chaque ingrédient comme un élément de liste (li)
+//     uniqueIngredient.forEach(ingredient => {
+//         const liElement = document.createElement("li");
+//         liElement.textContent = ingredient;
+//         ulElement.appendChild(liElement);
+//     });
+    
+//     // Ajouter la liste à votre conteneur dans le DOM
+//     listeIngredients.appendChild(ulElement);
+
+
+//     return recipesA1;
+//     //return (recipesA1, uniqueIngredient);
+//     //console.log(recipesA1);
+//     //console.log(uniqueIngredient);
+//     //return uniqueIngredient;
+// }
+
+// /**
+//  * Trie les recettes via les filtres appareils
+//  */
+// function sortRecipesByAppareils(recipesA2){
+//     const appareilsDOM = document.querySelector("#appareils");
+//     appareilsDOM.innerHTML = '';
+
+
+//     for(let i = 0; i < recipesA2.length; i++) {
+//         //console.log(recipesA1);
+//         const recettes = recipesA2[i];
+//         console.log(recettes);
+//         const divDropdown = document.createElement("ul");
+//         divDropdown.classList.add("menu");
+//         console.log(divDropdown);
+
+//         //for(let j = 0; j < recettes.appliance.length; j++) {
+//             //const appareil = recettes.appliance[j];
+//             const appareil = recettes.appliance;
+//             const liElement = document.createElement("li");
+//             liElement.textContent = appareil.toLowerCase();
+//             divDropdown.appendChild(liElement);
+//         //}
+//         appareilsDOM.appendChild(divDropdown);
+//     }
+//     return recipesA2
+// }
+
+// /**
+//  * Trie les recettes via les filtres ustensiles
+//  */
+// function sortRecipesByUstensiles(recipesA3){
+//     const allUstensiles = [];
+//     const listeUstensiles = document.getElementById("ustensiles");
+//     //listeIngredients.classList.add("menu");
+//     const ulElement = document.createElement("ul");
+//     ulElement.classList.add("menu");
+
+//     recipesA3.forEach(recipe => {
+//         recipe.ustensiles.forEach(ustensile => {
+//             allUstensiles.push(ustensile.toLowerCase());
+//             //console.log(recipe);  
+//             //console.log(ingredient);
+//             //console.log(allIngredients);
+//         }); 
+//     });
+
+//     const uniqueUstensile = [... new Set(allUstensiles)];
+
+//     // Ajouter chaque ingrédient comme un élément de liste (li)
+//     uniqueUstensile.forEach(ustensile => {
+//         const liElement = document.createElement("li");
+//         liElement.textContent = ustensile;
+//         ulElement.appendChild(liElement);
+//     });
+    
+//     // Ajouter la liste à votre conteneur dans le DOM
+//     listeUstensiles.appendChild(ulElement);
+    
+//     return recipesA3
+// }
+
+/**
+ * Récupère tous les ingredients de recipes
+ */
+function getIngredientsList(recipes){
+    const ingredientsList = new Set();
+
+    // Récupération des ingrédients avec tri
+    recipes.forEach(recipe => {
         recipe.ingredients.forEach(ingredient => {
-            allIngredients.push(ingredient.ingredient.toLowerCase());
-            //console.log(recipe);  
-            //console.log(ingredient);
-            //console.log(allIngredients);
+            ingredientsList.add(ingredient.ingredient.toLowerCase());
         }); 
     });
 
-    
-    const uniqueIngredient = [... new Set(allIngredients)];
-
-    // Ajouter chaque ingrédient comme un élément de liste (li)
-    uniqueIngredient.forEach(ingredient => {
-        const liElement = document.createElement("li");
-        liElement.textContent = ingredient;
-        ulElement.appendChild(liElement);
-    });
-    
-    // Ajouter la liste à votre conteneur dans le DOM
-    listeIngredients.appendChild(ulElement);
-
-
-    return recipesA1;
-    //return (recipesA1, uniqueIngredient);
-    //console.log(recipesA1);
-    //console.log(uniqueIngredient);
-    //return uniqueIngredient;
+    return ingredientsList
 }
 
-/**
- * Trie les recettes via les filtres appareils
- */
-function sortRecipesByAppareils(recipesA2){
-    // const allAppareils = [];
-    // const listeAppareils = document.getElementById("appareils");
-    // const ulElement = document.createElement("ul");
-    // ulElement.classList.add("menu");
+/** 
+ * Affiche les tags ingredients
+ **/
+function displayIngredientsTags(ingredientsList){
 
-    // Object.keys(items).forEach(key => {
-    //     const item = items[key];
-    //     const liElement = document.createElement("li");
-    //     liElement.textContent = item.toLowerCase();
+    // Réinitialisation de l'affichage des ingrédients tags
+    ingredientsListDOM.innerHTML = '';
 
-    //     ulElement.appendChild(liElement)
-    // });
+    const menuNode = document.createElement("ul");
+    menuNode.classList.add('menu')
 
-    // listeAppareils.appendChild(ulElement);
+        // Ajouter chaque ingrédient comme un élément de liste (li)
+        ingredientsList.forEach(ingredientText => {
+            const newNode = document.createElement("li");
+            newNode.classList.add('menu__item')
+            newNode.innerHTML = ingredientText;
 
-    // recipesA2.forEach(recipeA1 => {
-    //     recipeA1.appliance.forEach(appliance => {
-    //         console.log('hey');
-    //         //allAppareils.push(appliance.toLowerCase());
-    //         console.log(appliance);
-    //     });
-    // })
+            newNode.addEventListener('click', () => {
+                console.log('click sur ingredient', ingredientText);
+            })
 
-    // const uniqueAppareil = [... new Set(allAppareils)];
+            // Ajouter la liste à votre conteneur dans le DOM
+            menuNode.appendChild(newNode);
+        });
 
-    // uniqueAppareil.forEach(appareil => {
-    //     const liElement = document.createElement("li");
-    //     liElement.textContent = appareil;
-    //     ulElement.appendChild(liElement);
-    // });
-
-    // listeAppareils.appendChild(ulElement);
-
-    return recipesA2
-
-}
-
-/**
- * Trie les recettes via les filtres ustensiles
- */
-function sortRecipesByUstensiles(recipesA3){
-    return recipesA3
-
+    ingredientsListDOM.appendChild(menuNode);
 }
 
 /**
  * 1ère fonction de la page qui est appelée et qui appelle toutes les autres
  */
 async function init() {
+
+    // Récupération des recettes
     const listRecipes = await getRecipes();
+    
+    // Affichage tags ingrédients
+    const ingredientsList = getIngredientsList(listRecipes)
+    displayIngredientsTags(ingredientsList)
+
+    // Affichage tags appareils
+    const appliancseList = new Set();
+
+    listRecipes.forEach(recipe => {
+        appliancseList.add(recipe.appliance)
+    })
+
+    console.log(appliancseList)
+
+
+    // Affichage tags ustensiles
+    const ustensilesList = new Set();
+
+    listRecipes.forEach(recipe => {
+        recipe.ustensils.forEach(ustensil => {
+            ustensilesList.add(ustensil)
+        })
+    })
+
+    console.log(ustensilesList)
+
+
+    // Affichage des recettes
     displayRecipes(listRecipes);
     displayCountTotalRecipes();
 };

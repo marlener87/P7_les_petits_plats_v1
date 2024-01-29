@@ -147,6 +147,11 @@ body {
     transform: rotate(180deg);
 }
 
+.list {
+    display: none;
+    opacity: 0;
+}
+
 .menu {
     list-style: none;
     border-radius: 0 0 8px 8px;
@@ -156,8 +161,6 @@ body {
     left: 50%;
     width: 100%;
     transform: translateX(-50%);
-    opacity: 0;
-    display: none;
     transition: 0.2s;
     z-index: 1;
     background: white;
@@ -193,7 +196,7 @@ body {
     background: #FFD15B;
 }
 
-.menu-open {
+.list-open {
     display: block;
     opacity: 1;
 }

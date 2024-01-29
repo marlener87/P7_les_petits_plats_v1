@@ -5,7 +5,7 @@ dropdowns.forEach(dropdown => {
     // Get inner elements from each dropdown
     const select = dropdown.querySelector('.select');
     const chevron = dropdown.querySelector('.fa-chevron-down');
-    const menu = dropdown.querySelector('.menu');
+    const list =   dropdown.querySelector('.list');
     const options = dropdown.querySelectorAll('.menu li');
     const selected = dropdown.querySelector('.selected');
 
@@ -13,9 +13,9 @@ dropdowns.forEach(dropdown => {
     select.addEventListener('click', () => {
         //event.preventDefault();
 
-        select.classList.toggle('select-clicked');
+        //select.classList.toggle('select-clicked');
         chevron.classList.toggle('fa-chevron-down-rotate');
-        menu.classList.toggle('menu-open');
+        list.classList.toggle('list-open');
     });
 
     options.forEach(option => {
