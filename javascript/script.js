@@ -136,14 +136,12 @@ formDOM.addEventListener('submit', async (event) => {
 
 /**
  * Trie les recettes
+ *  @params recipes - Liste de toutes les recettes à trier
  */
 function sortRecipes(recipes){
-    const recipesA1 = sortRecipesBySearch(recipes)
-    
-    //const recipesA2 = sortRecipesByIngredients(recipesA1)
-    
-    //const recipesA3 = sortRecipesByAppareils(recipesA2)
-    
+    const recipesA1 = sortRecipesBySearch(recipes) 
+    //const recipesA2 = sortRecipesByIngredients(recipesA1) 
+    //const recipesA3 = sortRecipesByAppareils(recipesA2) 
     //const recipesA4 = sortRecipesByUstensiles(recipesA3)
 
     return recipesA1
@@ -195,110 +193,7 @@ function sortRecipesBySearch(recipes){
     return recipesA1;
 }
 
-// /**
-//  * Trie les recettes via les filtres ingredients
-//  */
-// // parametre : recipesA1
-// function sortRecipesByIngredients(recipesA1){
-//     const allIngredients = [];
-//     const listeIngredients = document.getElementById("ingredients");
-//     //listeIngredients.classList.add("menu");
-//     const ulElement = document.createElement("ul");
-//     ulElement.classList.add("menu");
-
-//     recipesA1.forEach(recipe => {
-//         recipe.ingredients.forEach(ingredient => {
-//             allIngredients.push(ingredient.ingredient.toLowerCase());
-//             //console.log(recipe);  
-//             //console.log(ingredient);
-//             //console.log(allIngredients);
-//         }); 
-//     });
-
-    
-//     const uniqueIngredient = [... new Set(allIngredients)];
-
-//     // Ajouter chaque ingrédient comme un élément de liste (li)
-//     uniqueIngredient.forEach(ingredient => {
-//         const liElement = document.createElement("li");
-//         liElement.textContent = ingredient;
-//         ulElement.appendChild(liElement);
-//     });
-    
-//     // Ajouter la liste à votre conteneur dans le DOM
-//     listeIngredients.appendChild(ulElement);
-
-
-//     return recipesA1;
-//     //return (recipesA1, uniqueIngredient);
-//     //console.log(recipesA1);
-//     //console.log(uniqueIngredient);
-//     //return uniqueIngredient;
-// }
-
-// /**
-//  * Trie les recettes via les filtres appareils
-//  */
-// function sortRecipesByAppareils(recipesA2){
-//     const appareilsDOM = document.querySelector("#appareils");
-//     appareilsDOM.innerHTML = '';
-
-
-//     for(let i = 0; i < recipesA2.length; i++) {
-//         //console.log(recipesA1);
-//         const recettes = recipesA2[i];
-//         console.log(recettes);
-//         const divDropdown = document.createElement("ul");
-//         divDropdown.classList.add("menu");
-//         console.log(divDropdown);
-
-//         //for(let j = 0; j < recettes.appliance.length; j++) {
-//             //const appareil = recettes.appliance[j];
-//             const appareil = recettes.appliance;
-//             const liElement = document.createElement("li");
-//             liElement.textContent = appareil.toLowerCase();
-//             divDropdown.appendChild(liElement);
-//         //}
-//         appareilsDOM.appendChild(divDropdown);
-//     }
-//     return recipesA2
-// }
-
-// /**
-//  * Trie les recettes via les filtres ustensiles
-//  */
-// function sortRecipesByUstensiles(recipesA3){
-//     const allUstensiles = [];
-//     const listeUstensiles = document.getElementById("ustensiles");
-//     //listeIngredients.classList.add("menu");
-//     const ulElement = document.createElement("ul");
-//     ulElement.classList.add("menu");
-
-//     recipesA3.forEach(recipe => {
-//         recipe.ustensiles.forEach(ustensile => {
-//             allUstensiles.push(ustensile.toLowerCase());
-//             //console.log(recipe);  
-//             //console.log(ingredient);
-//             //console.log(allIngredients);
-//         }); 
-//     });
-
-//     const uniqueUstensile = [... new Set(allUstensiles)];
-
-//     // Ajouter chaque ingrédient comme un élément de liste (li)
-//     uniqueUstensile.forEach(ustensile => {
-//         const liElement = document.createElement("li");
-//         liElement.textContent = ustensile;
-//         ulElement.appendChild(liElement);
-//     });
-    
-//     // Ajouter la liste à votre conteneur dans le DOM
-//     listeUstensiles.appendChild(ulElement);
-    
-//     return recipesA3
-// }
-
-////////////// INGREDIENTS
+////////////// INGREDIENTS //////////////////////////////////////////////////
 /**
  * Récupère tous les ingredients de recipes
  */
@@ -313,7 +208,6 @@ function getIngredientsList(recipes){
     });
     
     // tri par ordre alphabétique en prenant en compte les accents
-    //const sortedIngredients = Array.from(ingredientsList).sort();
     const sortedIngredients = Array.from(ingredientsList).sort((a, b) => {
         return a.localeCompare(b, 'fr', { sensitivity: 'base' });
     })
@@ -336,8 +230,16 @@ function displayIngredientsTags(ingredientsList){
         newNode.classList.add("menu__item");
         newNode.innerHTML = ingredientText;
 
-        newNode.addEventListener('click', () => {
+        newNode.addEventListener('click', () => { 
+            const selectedIngredientsList = document.getElementById("selectedIngredientsList");
+            const newSelectedItem = document.createElement("li");
+            newSelectedItem.classList.add("newItem");
             console.log('click sur ingredient', ingredientText);
+
+            // mettre à jour la valeur de la liste avec l'ingrédient sélectionné
+            newSelectedItem.textContent = ingredientText;
+
+            selectedIngredientsList.appendChild(newSelectedItem);
         });
 
         // Ajouter la liste à votre conteneur dans le DOM
@@ -347,6 +249,13 @@ function displayIngredientsTags(ingredientsList){
     ingredientsListDOM.appendChild(menuNode);
 }
 
+// ingredientsListDOM.addEventListener('click', function(event) {
+//     if(event.target.tagName === 'li') {
+//         const selectedIngredientList = document.createElement("p");
+//         const selectedIngredient = event.target.textContent;
+//         selectedIngredientList.value = selectedIngredient;
+//     }
+// })
 
 //////////////////////// APPAREILS //////////////////////////////////////////////////
 /**
@@ -361,7 +270,6 @@ function getAppliancesList(recipes){
     });
 
     // tri par ordre alphabétique en prenant en compte les accents
-    //const sortedAppliances = Array.from(appliancesList).sort();
     const sortedAppliances = Array.from(appliancesList).sort((a, b) => {
         return a.localeCompare(b, 'fr', { sensitivity: 'base' });
     });
@@ -372,26 +280,33 @@ function getAppliancesList(recipes){
  * Affiche les tags appareils
  **/
 function displayAppliancesTags(appliancesList){
-
     // Réinitialisation de l'affichage des appareils tags
     appliancesListDOM.innerHTML = '';
 
     const menuNode = document.createElement("ul");
-    menuNode.classList.add('menu')
+    menuNode.classList.add('menu');
 
-        // Ajouter chaque appareil comme un élément de liste (li)
-        appliancesList.forEach(applianceText => {
-            const newNode = document.createElement("li");
-            newNode.classList.add('menu__item')
-            newNode.innerHTML = applianceText;
+    // Ajouter chaque appareil comme un élément de liste (li)
+    appliancesList.forEach(applianceText => {
+        const newNode = document.createElement("li");
+        newNode.classList.add('menu__item')
+        newNode.innerHTML = applianceText;
 
-            newNode.addEventListener('click', () => {
-                console.log('click sur appareil', applianceText);
-            })
+        newNode.addEventListener('click', () => {
+            const selectedAppliancesList = document.getElementById("selectedAppliancesList");
+            const newSelectedItem = document.createElement("li");
+            newSelectedItem.classList.add("newItem");
+            console.log('click sur appareil', applianceText);
 
-            // Ajouter la liste à votre conteneur dans le DOM
-            menuNode.appendChild(newNode);
-        });
+            // mettre à jour la valeur de la liste avec l'appareil sélectionné
+            newSelectedItem.textContent = applianceText;
+
+            selectedAppliancesList.appendChild(newSelectedItem);
+        })
+
+        // Ajouter la liste à votre conteneur dans le DOM
+        menuNode.appendChild(newNode);
+    });
 
     appliancesListDOM.appendChild(menuNode);
 }
@@ -411,7 +326,6 @@ function getUstensilesList(recipes){
     });
 
     // tri par ordre alphabétique en prenant en compte les accents
-    //const sortedUstensils = Array.from(ustensilesList).sort();
     const sortedUstensils = Array.from(ustensilesList).sort((a, b) => {
         return a.localeCompare(b, 'fr', { sensitivity: 'base' });
     })
@@ -435,7 +349,15 @@ function displayUstensilesTags(ustensilesList){
         newNode.innerHTML = ustensileText;
 
         newNode.addEventListener('click', () => {
+            const selectedUstensilsList = document.getElementById("selectedUstensilsList");
+            const newSelectedItem = document.createElement("li");
+            newSelectedItem.classList.add("newItem");
             console.log('click sur ustensile', ustensileText);
+
+            // mettre à jour la valeur de la liste avec l'ustensile sélectionné
+            newSelectedItem.textContent = ustensileText;
+
+            selectedUstensilsList.appendChild(newSelectedItem);
         });
 
         // Ajouter la liste à votre conteneur dans le DOM

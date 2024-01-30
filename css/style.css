@@ -13,6 +13,7 @@ body {
     font-family: Anton;
 }
 
+/* HEADER */
 .headerPage {
     width: 100%;
     height: 650px;
@@ -26,7 +27,6 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
 }
 
 .logo {
@@ -100,6 +100,7 @@ body {
     justify-content: space-between;
 }*/
 
+/* DROPDOWN BLOCK*/
 .blockNav {
     min-height: 50px;
     padding: 15px 100px;
@@ -113,6 +114,7 @@ body {
     display: flex;
 }
 
+/* dropdown ingrédient/appareil/ustensiles */
 .dropdown {
     min-width: 240px;
     position: relative;
@@ -124,6 +126,7 @@ body {
     box-sizing: border-box;
 }
 
+/* titre dropdown */
 .select {
     background: white;
     color: #1b1b1b;
@@ -136,20 +139,15 @@ body {
     transition: background 0.3s;
 }
 
-/* Clicked styles */
-.caret {
-    width: 0;
-    height: 0;
-    transition: 0.3s;
-}
-
 .fa-chevron-down-rotate {
     transform: rotate(180deg);
 }
 
+/* liste dropdown */
 .list {
     display: none;
     opacity: 0;
+    top: -50px;
 }
 
 .menu {
@@ -172,11 +170,11 @@ body {
     cursor: pointer;
 }
 
-.list {
-    top: -50px;
+.menu__item:hover {
+    background: #FFD15B;
 }
 
-.searchDropdown {
+/*.searchDropdown {
     width: 100%;
     height: 35px;
     border-color: #c6c6c6;
@@ -190,10 +188,20 @@ body {
 
 .glassDropdown {
     color: #c6c6c6;
-}
+}*/
 
 .active {
     background: #FFD15B;
+}
+
+/* INGREDIENT/APPAREIL/USTENSILE SELECTIONNE */
+.newItem {
+    list-style-type: none;
+    background: #FFD15B;
+    padding: 10px 16px;
+    margin-top: 10px;
+    margin-right: 50px;
+    border-radius: 8px;
 }
 
 .list-open {
@@ -206,6 +214,7 @@ body {
     font-weight: 600;
 }
 
+/* CARD RECIPE */
 .cardsRecipe {
     padding: 15px 100px;
     display: flex;
@@ -213,7 +222,6 @@ body {
     justify-content: space-between;
 }
 
-/* CARD RECIPE */
 .card {
     width: 380px;
     height: 730px;

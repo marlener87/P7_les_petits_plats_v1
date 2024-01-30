@@ -169,3 +169,112 @@
 
     // listeAppareils.appendChild(ulElement);
     //const allAppareils = [];
+
+
+
+
+
+
+A JETER
+    // /**
+//  * Trie les recettes via les filtres ingredients
+//  */
+// // parametre : recipesA1
+// function sortRecipesByIngredients(recipesA1){
+//     const allIngredients = [];
+//     const listeIngredients = document.getElementById("ingredients");
+//     //listeIngredients.classList.add("menu");
+//     const ulElement = document.createElement("ul");
+//     ulElement.classList.add("menu");
+
+//     recipesA1.forEach(recipe => {
+//         recipe.ingredients.forEach(ingredient => {
+//             allIngredients.push(ingredient.ingredient.toLowerCase());
+//             //console.log(recipe);  
+//             //console.log(ingredient);
+//             //console.log(allIngredients);
+//         }); 
+//     });
+
+    
+//     const uniqueIngredient = [... new Set(allIngredients)];
+
+//     // Ajouter chaque ingrédient comme un élément de liste (li)
+//     uniqueIngredient.forEach(ingredient => {
+//         const liElement = document.createElement("li");
+//         liElement.textContent = ingredient;
+//         ulElement.appendChild(liElement);
+//     });
+    
+//     // Ajouter la liste à votre conteneur dans le DOM
+//     listeIngredients.appendChild(ulElement);
+
+
+//     return recipesA1;
+//     //return (recipesA1, uniqueIngredient);
+//     //console.log(recipesA1);
+//     //console.log(uniqueIngredient);
+//     //return uniqueIngredient;
+// }
+
+// /**
+//  * Trie les recettes via les filtres appareils
+//  */
+// function sortRecipesByAppareils(recipesA2){
+//     const appareilsDOM = document.querySelector("#appareils");
+//     appareilsDOM.innerHTML = '';
+
+
+//     for(let i = 0; i < recipesA2.length; i++) {
+//         //console.log(recipesA1);
+//         const recettes = recipesA2[i];
+//         console.log(recettes);
+//         const divDropdown = document.createElement("ul");
+//         divDropdown.classList.add("menu");
+//         console.log(divDropdown);
+
+//         //for(let j = 0; j < recettes.appliance.length; j++) {
+//             //const appareil = recettes.appliance[j];
+//             const appareil = recettes.appliance;
+//             const liElement = document.createElement("li");
+//             liElement.textContent = appareil.toLowerCase();
+//             divDropdown.appendChild(liElement);
+//         //}
+//         appareilsDOM.appendChild(divDropdown);
+//     }
+//     return recipesA2
+// }
+
+// /**
+//  * Trie les recettes via les filtres ustensiles
+//  */
+// function sortRecipesByUstensiles(recipesA3){
+//     const allUstensiles = [];
+//     const listeUstensiles = document.getElementById("ustensiles");
+//     //listeIngredients.classList.add("menu");
+//     const ulElement = document.createElement("ul");
+//     ulElement.classList.add("menu");
+
+//     recipesA3.forEach(recipe => {
+//         recipe.ustensiles.forEach(ustensile => {
+//             allUstensiles.push(ustensile.toLowerCase());
+//             //console.log(recipe);  
+//             //console.log(ingredient);
+//             //console.log(allIngredients);
+//         }); 
+//     });
+
+//     const uniqueUstensile = [... new Set(allUstensiles)];
+
+//     // Ajouter chaque ingrédient comme un élément de liste (li)
+//     uniqueUstensile.forEach(ustensile => {
+//         const liElement = document.createElement("li");
+//         liElement.textContent = ustensile;
+//         ulElement.appendChild(liElement);
+//     });
+    
+//     // Ajouter la liste à votre conteneur dans le DOM
+//     listeUstensiles.appendChild(ulElement);
+    
+//     return recipesA3
+// }
