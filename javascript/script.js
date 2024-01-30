@@ -3,6 +3,8 @@ const recipesDOM = document.querySelector(".cardsRecipe");
 const totalRecipesDOM = document.querySelector(".totalRecipes");
 
 const ingredientsListDOM = document.getElementById("ingredients");
+const appliancesListDOM = document.getElementById("appareils");
+const ustensilesListDom = document.getElementById("ustensiles");
 
 // Partie formulaire
 const formDOM = document.querySelector('#searchForm');
@@ -26,64 +28,63 @@ async function getRecipes() {
  * @params {object} listRecipes - La liste des recettes à afficher 
  */
 function displayRecipes(listRecipes) {
-  
     // Réinitialise l'affichage de la liste des recettes
     recipesDOM.innerHTML = '';
 
-    // On parcours la liste des recettes reçue en paramètre
+    // On parcourt la liste des recettes reçue en paramètre
     for (let i = 0; i < listRecipes.length; i++) {
-      const item = listRecipes[i]; // On récupère la recette courante
+        const item = listRecipes[i]; // On récupère la recette courante
 
-      // On créer le nouveau noeud correspondant à la carte d'une recette
-      const divCard = document.createElement("a");
-      divCard.classList.add("card");
-      divCard.setAttribute("href", "#");
-  
-      // On créer la partie ingredient de la recette
-      const divBlockIngredient = document.createElement("div");
-      divBlockIngredient.classList.add("blockIngredient");
-  
-      for (let j = 0; j < item.ingredients.length; j++) {
-        const ingredient = item.ingredients[j];
-        const divIngredients = document.createElement("div");
-        divIngredients.classList.add("ingredientQuantite");
-  
-        const nomIngredient = ingredient.ingredient;
-        const quantity = ingredient.quantity || '';
-        const unite = ingredient.unit || '';
-  
-        divIngredients.innerHTML = `
-            <h4 class="nameIngredient">${nomIngredient}</h4>
-            <p class="quantiteIngredient">${quantity} ${unite}</p>
+        // On crée le nouveau noeud correspondant à la carte d'une recette
+        const divCard = document.createElement("a");
+        divCard.classList.add("card");
+        divCard.setAttribute("href", "#");
+    
+        // On crée la partie ingredient de la recette
+        const divBlockIngredient = document.createElement("div");
+        divBlockIngredient.classList.add("blockIngredient");
+    
+        for (let j = 0; j < item.ingredients.length; j++) {
+            const ingredient = item.ingredients[j];
+            const divIngredients = document.createElement("div");
+            divIngredients.classList.add("ingredientQuantite");
+    
+            const nomIngredient = ingredient.ingredient;
+            const quantity = ingredient.quantity || '';
+            const unite = ingredient.unit || '';
+    
+            divIngredients.innerHTML = `
+                <h4 class="nameIngredient">${nomIngredient}</h4>
+                <p class="quantiteIngredient">${quantity} ${unite}</p>
+            `;
+    
+            divBlockIngredient.appendChild(divIngredients);
+        }
+    
+        // On complète le contenu du noeud de la recette
+        divCard.innerHTML = `
+            <div class="cardImg">
+                <img src="assets/imgRecettes/${item.image}" alt="limonade" class="imgRecipe">
+                <div class="timeRecipe">
+                    <span class="time">${item.time} min</span>
+                </div>
+            </div>
+            <div class="cardBody">
+                <div class="blockTitleRecipe">
+                    <h2 class="nameRecipe">${item.name}</h2>
+                </div>
+    
+                <div class="blockProcessRecipe">
+                    <h3 class="titleRecipe">RECETTE</h3>
+                    <p class="processRecipe">${item.description}</p>
+                </div>
+    
+                <div class="blockIngredientsRecipe">
+                    <h3 class="titleIngredient">INGRÉDIENTS</h3>
+                    ${divBlockIngredient.outerHTML}
+                </div>
+            </div>
         `;
-  
-        divBlockIngredient.appendChild(divIngredients);
-      }
-  
-      // On complète le contenu du noeud de la recette
-      divCard.innerHTML = `
-          <div class="cardImg">
-              <img src="assets/imgRecettes/${item.image}" alt="limonade" class="imgRecipe">
-              <div class="timeRecipe">
-                  <span class="time">${item.time} min</span>
-              </div>
-          </div>
-          <div class="cardBody">
-              <div class="blockTitleRecipe">
-                  <h2 class="nameRecipe">${item.name}</h2>
-              </div>
-  
-              <div class="blockProcessRecipe">
-                  <h3 class="titleRecipe">RECETTE</h3>
-                  <p class="processRecipe">${item.description}</p>
-              </div>
-  
-              <div class="blockIngredientsRecipe">
-                  <h3 class="titleIngredient">INGRÉDIENTS</h3>
-                  ${divBlockIngredient.outerHTML}
-              </div>
-          </div>
-      `;
   
         // On ajoute le nouveau noeud de la recette dans le DOM
         recipesDOM.appendChild(divCard);
@@ -118,9 +119,12 @@ formDOM.addEventListener('submit', async (event) => {
     displayIngredientsTags(ingredientsList)
 
     // Affichage tags appareils
+    const appliancesList = getAppliancesList(recipesA4)
+    displayAppliancesTags(appliancesList)
 
     // Affichage tags ustensiles
-
+    const ustensilesList = getUstensilesList(recipesA4)
+    displayUstensilesTags(ustensilesList)
 
     // Il faut afficher recipesA4
     console.log('recettes triées :')
@@ -294,49 +298,170 @@ function sortRecipesBySearch(recipes){
 //     return recipesA3
 // }
 
+////////////// INGREDIENTS
 /**
  * Récupère tous les ingredients de recipes
  */
 function getIngredientsList(recipes){
     const ingredientsList = new Set();
 
-    // Récupération des ingrédients avec tri
+    // Récupération des ingrédients
     recipes.forEach(recipe => {
         recipe.ingredients.forEach(ingredient => {
             ingredientsList.add(ingredient.ingredient.toLowerCase());
         }); 
     });
-
-    return ingredientsList
+    
+    // tri par ordre alphabétique en prenant en compte les accents
+    //const sortedIngredients = Array.from(ingredientsList).sort();
+    const sortedIngredients = Array.from(ingredientsList).sort((a, b) => {
+        return a.localeCompare(b, 'fr', { sensitivity: 'base' });
+    })
+    return sortedIngredients;
 }
 
 /** 
  * Affiche les tags ingredients
  **/
 function displayIngredientsTags(ingredientsList){
-
     // Réinitialisation de l'affichage des ingrédients tags
     ingredientsListDOM.innerHTML = '';
 
     const menuNode = document.createElement("ul");
+    menuNode.classList.add("menu");
+
+    // Ajouter chaque ingrédient comme un élément de liste (li)
+    ingredientsList.forEach(ingredientText => {
+        const newNode = document.createElement("li");
+        newNode.classList.add("menu__item");
+        newNode.innerHTML = ingredientText;
+
+        newNode.addEventListener('click', () => {
+            console.log('click sur ingredient', ingredientText);
+        });
+
+        // Ajouter la liste à votre conteneur dans le DOM
+        menuNode.appendChild(newNode);
+    });
+
+    ingredientsListDOM.appendChild(menuNode);
+}
+
+
+//////////////////////// APPAREILS //////////////////////////////////////////////////
+/**
+ * Récupère tous les appareils de recipes
+ */
+function getAppliancesList(recipes){
+    const appliancesList = new Set();
+
+    // Récupération des appareils
+    recipes.forEach(recipe => {
+        appliancesList.add(recipe.appliance.toLowerCase()); 
+    });
+
+    // tri par ordre alphabétique en prenant en compte les accents
+    //const sortedAppliances = Array.from(appliancesList).sort();
+    const sortedAppliances = Array.from(appliancesList).sort((a, b) => {
+        return a.localeCompare(b, 'fr', { sensitivity: 'base' });
+    });
+    return sortedAppliances;
+}
+
+/** 
+ * Affiche les tags appareils
+ **/
+function displayAppliancesTags(appliancesList){
+
+    // Réinitialisation de l'affichage des appareils tags
+    appliancesListDOM.innerHTML = '';
+
+    const menuNode = document.createElement("ul");
     menuNode.classList.add('menu')
 
-        // Ajouter chaque ingrédient comme un élément de liste (li)
-        ingredientsList.forEach(ingredientText => {
+        // Ajouter chaque appareil comme un élément de liste (li)
+        appliancesList.forEach(applianceText => {
             const newNode = document.createElement("li");
             newNode.classList.add('menu__item')
-            newNode.innerHTML = ingredientText;
+            newNode.innerHTML = applianceText;
 
             newNode.addEventListener('click', () => {
-                console.log('click sur ingredient', ingredientText);
+                console.log('click sur appareil', applianceText);
             })
 
             // Ajouter la liste à votre conteneur dans le DOM
             menuNode.appendChild(newNode);
         });
 
-    ingredientsListDOM.appendChild(menuNode);
+    appliancesListDOM.appendChild(menuNode);
 }
+
+///////////////////////////////// USTENSILES /////////////////////////////////////////
+/**
+ * Récupère tous les ustensiles de recipes
+ */
+function getUstensilesList(recipes){
+    const ustensilesList = new Set();
+    
+    // Récupération des ustensiles
+    recipes.forEach(recipe => {
+        recipe.ustensils.forEach(ustensile => {
+            ustensilesList.add(ustensile.toLowerCase());
+        });
+    });
+
+    // tri par ordre alphabétique en prenant en compte les accents
+    //const sortedUstensils = Array.from(ustensilesList).sort();
+    const sortedUstensils = Array.from(ustensilesList).sort((a, b) => {
+        return a.localeCompare(b, 'fr', { sensitivity: 'base' });
+    })
+    return sortedUstensils;
+}
+
+/**
+ * Affiche les tags ustensiles
+ */
+function displayUstensilesTags(ustensilesList){
+    // Réinitialisation de l'affichage des ustensiles tags
+    ustensilesListDom.innerHTML = '';
+
+    const menuNode = document.createElement("ul");
+    menuNode.classList.add("menu");
+
+    // Ajouter chaque ustensiles comme un élément de liste (li)
+    ustensilesList.forEach(ustensileText => {
+        const newNode = document.createElement("li");
+        newNode.classList.add("menu__item");
+        newNode.innerHTML = ustensileText;
+
+        newNode.addEventListener('click', () => {
+            console.log('click sur ustensile', ustensileText);
+        });
+
+        // Ajouter la liste à votre conteneur dans le DOM
+        menuNode.appendChild(newNode);
+    });
+
+    ustensilesListDom.appendChild(menuNode);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * 1ère fonction de la page qui est appelée et qui appelle toutes les autres
@@ -347,28 +472,31 @@ async function init() {
     const listRecipes = await getRecipes();
     
     // Affichage tags ingrédients
-    const ingredientsList = getIngredientsList(listRecipes)
-    displayIngredientsTags(ingredientsList)
+    const ingredientsList = getIngredientsList(listRecipes);
+    displayIngredientsTags(ingredientsList);
 
     // Affichage tags appareils
-    const appliancseList = new Set();
+    const appliancesList = getAppliancesList(listRecipes);
+    displayAppliancesTags(appliancesList);
+    // const appliancesList = new Set();
 
-    listRecipes.forEach(recipe => {
-        appliancseList.add(recipe.appliance)
-    })
+    // listRecipes.forEach(recipe => {
+    //     appliancesList.add(recipe.appliance)
+    // })
 
-    console.log(appliancseList)
+    console.log(appliancesList)
 
 
     // Affichage tags ustensiles
-    const ustensilesList = new Set();
+    const ustensilesList = getUstensilesList(listRecipes);
+    displayUstensilesTags(ustensilesList);
+    // const ustensilesList = new Set();
 
-    listRecipes.forEach(recipe => {
-        recipe.ustensils.forEach(ustensil => {
-            ustensilesList.add(ustensil)
-        })
-    })
-
+    // listRecipes.forEach(recipe => {
+    //     recipe.ustensils.forEach(ustensil => {
+    //         ustensilesList.add(ustensil)
+    //     })
+    // })
     console.log(ustensilesList)
 
 
