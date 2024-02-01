@@ -106,7 +106,7 @@ body {
     padding: 15px 100px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
     flex-wrap: wrap;
 }
 
@@ -174,7 +174,11 @@ body {
     background: #FFD15B;
 }
 
-/*.searchDropdown {
+.searchContainerDropdown {
+    width: 100%;
+}
+
+.searchDropdown {
     width: 100%;
     height: 35px;
     border-color: #c6c6c6;
@@ -188,7 +192,7 @@ body {
 
 .glassDropdown {
     color: #c6c6c6;
-}*/
+}
 
 .active {
     background: #FFD15B;
@@ -202,6 +206,19 @@ body {
     margin-top: 10px;
     margin-right: 50px;
     border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btnCancel {
+    border: none;
+    background: #FFD15B;
+    cursor: pointer;
+}
+
+.fa-xmark {
+    font-size: 15px;
 }
 
 .list-open {

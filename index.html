@@ -38,6 +38,13 @@
         </form>
     </header>
 
+    <div class="searchContainerDropdown">
+        <input type="search" class="searchDropdown">
+        <span class="glassSearch">
+            <i class="fa-solid fa-magnifying-glass glassDropdown"></i>
+        </span>
+    </div>
+
     <!-- DROPDOWN -->
     <nav class="blockNav">
         <div class="blockDropdown">
@@ -48,14 +55,14 @@
                         <span class="selected">Ingrédients</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
-                    <div class="list" id="ingredients">
-                        <!--<div class="searchContainerDropdown">
-                            <input type="search" class="searchDropdown">
+                    <div class="list">
+                        <div class="searchContainerDropdown">
+                            <input type="search" class="searchDropdown" placeholder="ingredient">
                             <span class="glassSearch">
                                 <i class="fa-solid fa-magnifying-glass glassDropdown"></i>
                             </span>
-                        </div>-->
-
+                        </div>
+                        <div id="ingredients"></div>
                     </div>
                 </div>
 
@@ -80,7 +87,6 @@
                     <ul id="selectedAppliancesList"></ul>
                 </div>
             </div>
-
 
             <!-- USTENSILES -->
             <div class="dropdownUstensiles">

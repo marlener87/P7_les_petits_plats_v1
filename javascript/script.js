@@ -3,12 +3,16 @@ const recipesDOM = document.querySelector(".cardsRecipe");
 const totalRecipesDOM = document.querySelector(".totalRecipes");
 
 const ingredientsListDOM = document.getElementById("ingredients");
+const selectedIngredientsList = document.getElementById("selectedIngredientsList");
 const appliancesListDOM = document.getElementById("appareils");
+const selectedAppliancesList = document.getElementById("selectedAppliancesList");
 const ustensilesListDom = document.getElementById("ustensiles");
+const selectedUstensilsList = document.getElementById("selectedUstensilsList");
 
 // Partie formulaire
 const formDOM = document.querySelector('#searchForm');
 const inputSearchDOM = document.querySelector('#searchInput');
+
 
 /**
  * Récupère les données dans le fichier recipes.json
@@ -105,9 +109,16 @@ function displayCountTotalRecipes() {
 /**
  * Lance l'algorithme de tri quand on valide le formulaire
  */
-formDOM.addEventListener('submit', async (event) => {
+formDOM.addEventListener('submit',(event) => {
     event.preventDefault();
+    
+    startSortRecipes()
+})
 
+/**
+ * 
+ */
+async function startSortRecipes(){
     // Récupération de toutes les recettes dans le fichier .json
     const listRecipes = await getRecipes();
     
@@ -127,24 +138,24 @@ formDOM.addEventListener('submit', async (event) => {
     displayUstensilesTags(ustensilesList)
 
     // Il faut afficher recipesA4
-    console.log('recettes triées :')
-    console.log(recipesA4)
     displayRecipes(recipesA4);
     displayCountTotalRecipes();
-})
-
+}
 
 /**
  * Trie les recettes
  *  @params recipes - Liste de toutes les recettes à trier
  */
 function sortRecipes(recipes){
-    const recipesA1 = sortRecipesBySearch(recipes) 
-    //const recipesA2 = sortRecipesByIngredients(recipesA1) 
+
+    const recipesA1 = sortRecipesBySearch(recipes);
+    const recipesA2 = sortRecipesByIngredients(recipesA1) 
+
     //const recipesA3 = sortRecipesByAppareils(recipesA2) 
     //const recipesA4 = sortRecipesByUstensiles(recipesA3)
 
-    return recipesA1
+    return recipesA2;
+    //return recipesA2;
 }
 
 /**
@@ -153,6 +164,10 @@ function sortRecipes(recipes){
  */
 function sortRecipesBySearch(recipes){
     const recipesA1 = [];
+    // Réinitialisation de l'affichage des tags
+    //selectedIngredientsList.innerHTML = '';
+    //selectedAppliancesList.innerHTML = '';
+    //selectedUstensilsList.innerHTML = '';
 
     // Récupération du résultat de la barre de recherche
     const userSearch = inputSearchDOM.value.toLowerCase();
@@ -160,7 +175,7 @@ function sortRecipesBySearch(recipes){
     // Parcours de la liste de toutes les recettes
     for(let i = 0; i < recipes.length; i++) {
         const recipe = recipes[i];
-   
+        
         // Est-ce que la recette comporte la recherche de l'utilisateur dans le titre ?
         const title = recipe.name.toLowerCase()
         if(title.includes(userSearch)) {
@@ -192,12 +207,91 @@ function sortRecipesBySearch(recipes){
     }
     return recipesA1;
 }
+function sortRecipesByIngredients(recipes) {
+    const recipesA2 = new Set(); // Set pour éviter les doublons de recettes
+
+    const tagsIngredientsSelected = []; // Initialisation du tableau des tags ingredients selectionnés
+
+    // On récupère tous les tags selectionnés
+    const itemNodes = document.querySelectorAll('#selectedIngredientsList li') // retourne une NodeList
+    itemNodes.forEach(node => {
+        tagsIngredientsSelected.push(node.innerText) // On rempli ingredientsSelected
+    })
+
+    if(tagsIngredientsSelected.length < 1) return recipes
+
+    recipes.forEach(recipe => { // Parcours de toutes les recettes
+
+        // On créer un tableau de la forme ['banane', 'mangue'] à partir de la liste des ingrédients de chaque recette
+        // recipe : {
+        //     ingredients : [ // recipe.ingredients
+        //         {ingredient: 'Banane', quantity : 10}, // object
+        //         {ingredient: 'Mangue' , quantity : 1} 
+        //     ]
+        // }
+        const recipeIngredientsArray = recipe.ingredients.map(object => {
+            return object.ingredient.toLowerCase()
+        }) // => ['banane', 'mangue']
+
+
+        // Every retourne Vrai si tous les elements du tableau tagsIngredientsSelected respect la condition recipeIngredientsList.include(tag)
+        if(tagsIngredientsSelected.every(tag => recipeIngredientsArray.includes(tag))){
+            recipesA2.add(recipe)
+        }
+
+    })
+          
+    return Array.from(recipesA2); // Transformation du Set en Tableau
+}
+
+// function sortRecipesByIngredients(recipes) {
+//     const recipesA2 = [];
+//     console.log('tic');
+
+//     // Récupération du tag qui a été cliqué
+//     const clickedIngredient = newSelectedItem;
+
+//     // Parcours de la liste de toutes les recettes
+//     for (let i = 0; i < recipes.length; i++) {
+//         const recipe = recipes[i];
+//         let ingredientFound = true;
+
+//         // Vérifier si tous les ingrédients sélectionnés sont inclus dans la recette
+//         for (let j = 0; j < clickedIngredient.length; j++) {
+//             const selectedIngredient = ingredientText[j].toLowerCase();
+//             let ingredientMatch = false;
+
+//             // Vérifier si l'ingrédient sélectionné est inclus dans la recette
+//             for (let k = 0; k < recipe.ingredients.length; k++) {
+//                 const recipeIngredient = recipe.ingredients[k].ingredient.toLowerCase();
+//                 if (recipeIngredient.includes(selectedIngredient)) {
+//                     ingredientMatch = true;
+//                     break; // Sortir de la boucle si l'ingrédient est trouvé dans la recette
+//                 }
+//             }
+
+//             // Si l'ingrédient sélectionné n'est pas trouvé dans la recette, marquer la recette comme non correspondante
+//             if (!ingredientMatch) {
+//                 ingredientFound = false;
+//                 break; // Sortir de la boucle si un ingrédient sélectionné n'est pas trouvé dans la recette
+//             }
+//         }
+
+//         // Si tous les ingrédients sélectionnés sont trouvés dans la recette, ajouter la recette à la liste filtrée
+//         if (ingredientFound) {
+//             recipesA2.push(recipe);
+//         }
+//     }
+
+//     return recipesA2;
+// }
 
 ////////////// INGREDIENTS //////////////////////////////////////////////////
 /**
  * Récupère tous les ingredients de recipes
  */
 function getIngredientsList(recipes){
+    console.log(recipes);
     const ingredientsList = new Set();
 
     // Récupération des ingrédients
@@ -237,9 +331,22 @@ function displayIngredientsTags(ingredientsList){
             console.log('click sur ingredient', ingredientText);
 
             // mettre à jour la valeur de la liste avec l'ingrédient sélectionné
-            newSelectedItem.textContent = ingredientText;
+            newSelectedItem.innerHTML = `
+                ${ingredientText}
+                <button class="btnCancel"><i class="fa-solid fa-xmark"></i></button>
+            `;
+            //newSelectedItem.textContent = ingredientText;
+
+            // pour enlever un tag
+            const removeItem = newSelectedItem.querySelector(".btnCancel");
+            removeItem.addEventListener('click', () => {
+                newSelectedItem.remove();
+            });
 
             selectedIngredientsList.appendChild(newSelectedItem);
+
+            startSortRecipes()
+            // sortRecipesBySelectedIngredients();
         });
 
         // Ajouter la liste à votre conteneur dans le DOM
@@ -248,14 +355,6 @@ function displayIngredientsTags(ingredientsList){
 
     ingredientsListDOM.appendChild(menuNode);
 }
-
-// ingredientsListDOM.addEventListener('click', function(event) {
-//     if(event.target.tagName === 'li') {
-//         const selectedIngredientList = document.createElement("p");
-//         const selectedIngredient = event.target.textContent;
-//         selectedIngredientList.value = selectedIngredient;
-//     }
-// })
 
 //////////////////////// APPAREILS //////////////////////////////////////////////////
 /**
@@ -299,7 +398,17 @@ function displayAppliancesTags(appliancesList){
             console.log('click sur appareil', applianceText);
 
             // mettre à jour la valeur de la liste avec l'appareil sélectionné
-            newSelectedItem.textContent = applianceText;
+            newSelectedItem.innerHTML = `
+                ${applianceText}
+                <button class="btnCancel"><i class="fa-solid fa-xmark"></i></button>
+            `;
+            //newSelectedItem.textContent = applianceText;
+
+            // pour enlever un tag
+            const removeItem = newSelectedItem.querySelector(".btnCancel");
+            removeItem.addEventListener('click', () => {
+                newSelectedItem.remove();
+            });
 
             selectedAppliancesList.appendChild(newSelectedItem);
         })
@@ -355,7 +464,17 @@ function displayUstensilesTags(ustensilesList){
             console.log('click sur ustensile', ustensileText);
 
             // mettre à jour la valeur de la liste avec l'ustensile sélectionné
-            newSelectedItem.textContent = ustensileText;
+            newSelectedItem.innerHTML = `
+                ${ustensileText}
+                <button class="btnCancel"><i class="fa-solid fa-xmark"></i></button>
+            `
+            //newSelectedItem.textContent = ustensileText;
+
+            // pour enlever un tag
+            const removeItem = newSelectedItem.querySelector(".btnCancel");
+            removeItem.addEventListener('click', () => {
+                newSelectedItem.remove();
+            });
 
             selectedUstensilsList.appendChild(newSelectedItem);
         });
@@ -390,28 +509,29 @@ function displayUstensilesTags(ustensilesList){
  */
 async function init() {
 
+    startSortRecipes();
+
     // Récupération des recettes
-    const listRecipes = await getRecipes();
+    //const listRecipes = await getRecipes();
     
     // Affichage tags ingrédients
-    const ingredientsList = getIngredientsList(listRecipes);
-    displayIngredientsTags(ingredientsList);
+    //const ingredientsList = getIngredientsList(listRecipes);
+    //displayIngredientsTags(ingredientsList);
 
     // Affichage tags appareils
-    const appliancesList = getAppliancesList(listRecipes);
-    displayAppliancesTags(appliancesList);
+    //const appliancesList = getAppliancesList(listRecipes);
+    //displayAppliancesTags(appliancesList);
     // const appliancesList = new Set();
 
     // listRecipes.forEach(recipe => {
     //     appliancesList.add(recipe.appliance)
     // })
-
-    console.log(appliancesList)
+    //console.log(appliancesList)
 
 
     // Affichage tags ustensiles
-    const ustensilesList = getUstensilesList(listRecipes);
-    displayUstensilesTags(ustensilesList);
+    //const ustensilesList = getUstensilesList(listRecipes);
+    //displayUstensilesTags(ustensilesList);
     // const ustensilesList = new Set();
 
     // listRecipes.forEach(recipe => {
@@ -419,12 +539,12 @@ async function init() {
     //         ustensilesList.add(ustensil)
     //     })
     // })
-    console.log(ustensilesList)
+    //console.log(ustensilesList)
 
 
     // Affichage des recettes
-    displayRecipes(listRecipes);
-    displayCountTotalRecipes();
+    //displayRecipes(listRecipes);
+    //displayCountTotalRecipes();
 };
 
 init();
