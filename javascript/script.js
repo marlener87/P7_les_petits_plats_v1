@@ -151,11 +151,13 @@ function sortRecipes(recipes){
     const recipesA1 = sortRecipesBySearch(recipes);
     const recipesA2 = sortRecipesByIngredients(recipesA1) 
 
-    //const recipesA3 = sortRecipesByAppareils(recipesA2) 
-    //const recipesA4 = sortRecipesByUstensiles(recipesA3)
+    const recipesA3 = sortRecipesByAppareils(recipesA2) 
+    const recipesA4 = sortRecipesByUstensiles(recipesA3)
 
-    return recipesA2;
+    //return recipesA1;
     //return recipesA2;
+    //return recipesA3;
+    return recipesA4;
 }
 
 /**
@@ -207,20 +209,26 @@ function sortRecipesBySearch(recipes){
     }
     return recipesA1;
 }
+
+/**
+ * Trie les recettes par les ingrédients sélectionnés
+ * @param {*} recipes 
+ * @returns 
+ */
 function sortRecipesByIngredients(recipes) {
-    const recipesA2 = new Set(); // Set pour éviter les doublons de recettes
+    const recipesA2 = new Set(); // Set : pour éviter les doublons de recettes
 
     const tagsIngredientsSelected = []; // Initialisation du tableau des tags ingredients selectionnés
 
     // On récupère tous les tags selectionnés
-    const itemNodes = document.querySelectorAll('#selectedIngredientsList li') // retourne une NodeList
+    const itemNodes = document.querySelectorAll('#selectedIngredientsList li'); // retourne une NodeList
     itemNodes.forEach(node => {
-        tagsIngredientsSelected.push(node.innerText) // On rempli ingredientsSelected
-    })
+        tagsIngredientsSelected.push(node.innerText); // On remplit TagsIngredientsSelected
+    });
 
-    if(tagsIngredientsSelected.length < 1) return recipes
+    if(tagsIngredientsSelected.length < 1) return recipes;
 
-    recipes.forEach(recipe => { // Parcours de toutes les recettes
+    recipes.forEach(recipe => { // Parcourt de toutes les recettes
 
         // On créer un tableau de la forme ['banane', 'mangue'] à partir de la liste des ingrédients de chaque recette
         // recipe : {
@@ -230,61 +238,69 @@ function sortRecipesByIngredients(recipes) {
         //     ]
         // }
         const recipeIngredientsArray = recipe.ingredients.map(object => {
-            return object.ingredient.toLowerCase()
-        }) // => ['banane', 'mangue']
+            return object.ingredient.toLowerCase();
+        }); // => ['banane', 'mangue']
 
-
-        // Every retourne Vrai si tous les elements du tableau tagsIngredientsSelected respect la condition recipeIngredientsList.include(tag)
+        // Every retourne Vrai si tous les elements du tableau tagsIngredientsSelected respectent la condition recipeIngredientsList.include(tag)
         if(tagsIngredientsSelected.every(tag => recipeIngredientsArray.includes(tag))){
-            recipesA2.add(recipe)
-        }
-
-    })
+            recipesA2.add(recipe);
+        };
+    });
           
     return Array.from(recipesA2); // Transformation du Set en Tableau
 }
 
-// function sortRecipesByIngredients(recipes) {
-//     const recipesA2 = [];
-//     console.log('tic');
+/**
+ * Trie les recettes par les appareils sélectionnés
+ * @param {*} recipes 
+ * @returns recipesA3 - liste des recettes correspondant aux appareils sélectionnés
+ */
+function sortRecipesByAppareils(recipes) {
+    const recipesA3 = new Set(); // Set : pour éviter les doublons de recettes
+    const tagsAppliancesSelected = []; // Initialisation du tableau des tags appareils selectionnés
+    const itemNodes = document.querySelectorAll('#selectedAppliancesList li'); // On récupère tous les tags selectionnés
 
-//     // Récupération du tag qui a été cliqué
-//     const clickedIngredient = newSelectedItem;
+    itemNodes.forEach(node => {
+        tagsAppliancesSelected.push(node.innerText.toLowerCase()); // On remplit tagsAppliancesSelected
+    });
 
-//     // Parcours de la liste de toutes les recettes
-//     for (let i = 0; i < recipes.length; i++) {
-//         const recipe = recipes[i];
-//         let ingredientFound = true;
+    if(tagsAppliancesSelected.length < 1) return recipes;
+    
+    recipes.forEach(recipe => { // Parcourt de toutes les recettes
+        const recipeAppliance = recipe.appliance.toLowerCase();
 
-//         // Vérifier si tous les ingrédients sélectionnés sont inclus dans la recette
-//         for (let j = 0; j < clickedIngredient.length; j++) {
-//             const selectedIngredient = ingredientText[j].toLowerCase();
-//             let ingredientMatch = false;
+        if(tagsAppliancesSelected.includes(recipeAppliance)) {
+            recipesA3.add(recipe)
+        };
+    });
+    return Array.from(recipesA3); // Transformation du Set en Tableau
+}
 
-//             // Vérifier si l'ingrédient sélectionné est inclus dans la recette
-//             for (let k = 0; k < recipe.ingredients.length; k++) {
-//                 const recipeIngredient = recipe.ingredients[k].ingredient.toLowerCase();
-//                 if (recipeIngredient.includes(selectedIngredient)) {
-//                     ingredientMatch = true;
-//                     break; // Sortir de la boucle si l'ingrédient est trouvé dans la recette
-//                 }
-//             }
+/**
+ * Trie les recettes par les ustensiles sélectionnés
+ */
+function sortRecipesByUstensiles(recipes) {
+    const recipesA4 = new Set(); // Set : pour éviter les doublons de recettes
+    const tagsUstensilsSelected = []; // Initialisation du tableau des tags ustensiles selectionnés
+    const itemNodes = document.querySelectorAll('#selectedUstensilsList li'); // On récupère tous les tags selectionnés
 
-//             // Si l'ingrédient sélectionné n'est pas trouvé dans la recette, marquer la recette comme non correspondante
-//             if (!ingredientMatch) {
-//                 ingredientFound = false;
-//                 break; // Sortir de la boucle si un ingrédient sélectionné n'est pas trouvé dans la recette
-//             }
-//         }
+    itemNodes.forEach(node => {
+        tagsUstensilsSelected.push(node.innerText); // On remplit tagsUstensilsSelected
+    });
 
-//         // Si tous les ingrédients sélectionnés sont trouvés dans la recette, ajouter la recette à la liste filtrée
-//         if (ingredientFound) {
-//             recipesA2.push(recipe);
-//         }
-//     }
+    if(tagsUstensilsSelected.length < 1) return recipes;
 
-//     return recipesA2;
-// }
+    recipes.forEach(recipe => { // Parcourt de toutes les recettes
+        const recipeUstensilsArray = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
+        
+
+        if(tagsUstensilsSelected.every(tag => recipeUstensilsArray.includes(tag))) {
+            recipesA4.add(recipe);
+        };
+    });
+    return Array.from(recipesA4); // Transformation du Set en Tableau
+}
+
 
 ////////////// INGREDIENTS //////////////////////////////////////////////////
 /**
@@ -325,10 +341,13 @@ function displayIngredientsTags(ingredientsList){
         newNode.innerHTML = ingredientText;
 
         newNode.addEventListener('click', () => { 
+            newNode.remove();
             const selectedIngredientsList = document.getElementById("selectedIngredientsList");
             const newSelectedItem = document.createElement("li");
             newSelectedItem.classList.add("newItem");
             console.log('click sur ingredient', ingredientText);
+
+            //let currentNewNode = newNode;
 
             // mettre à jour la valeur de la liste avec l'ingrédient sélectionné
             newSelectedItem.innerHTML = `
@@ -340,12 +359,14 @@ function displayIngredientsTags(ingredientsList){
             // pour enlever un tag
             const removeItem = newSelectedItem.querySelector(".btnCancel");
             removeItem.addEventListener('click', () => {
+                //newNode.appendChild(newSelectedItem);
                 newSelectedItem.remove();
+                //reinsertNode(newNode);
             });
 
             selectedIngredientsList.appendChild(newSelectedItem);
 
-            startSortRecipes()
+            
             // sortRecipesBySelectedIngredients();
         });
 
@@ -355,6 +376,10 @@ function displayIngredientsTags(ingredientsList){
 
     ingredientsListDOM.appendChild(menuNode);
 }
+
+// function reinsertNode(node) {
+//     ingredientsListDOM.appendChild(node);
+// }
 
 //////////////////////// APPAREILS //////////////////////////////////////////////////
 /**
@@ -392,6 +417,7 @@ function displayAppliancesTags(appliancesList){
         newNode.innerHTML = applianceText;
 
         newNode.addEventListener('click', () => {
+            newNode.remove();
             const selectedAppliancesList = document.getElementById("selectedAppliancesList");
             const newSelectedItem = document.createElement("li");
             newSelectedItem.classList.add("newItem");
@@ -458,6 +484,7 @@ function displayUstensilesTags(ustensilesList){
         newNode.innerHTML = ustensileText;
 
         newNode.addEventListener('click', () => {
+            newNode.remove();
             const selectedUstensilsList = document.getElementById("selectedUstensilsList");
             const newSelectedItem = document.createElement("li");
             newSelectedItem.classList.add("newItem");
