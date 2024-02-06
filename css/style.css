@@ -148,20 +148,23 @@ body {
     display: none;
     opacity: 0;
     top: -50px;
+    z-index: 1;
 }
 
 .menu {
     list-style: none;
     border-radius: 0 0 8px 8px;
     color: #1b1b1b;
-    position: absolute;
+    /* position: absolute; */
     top: 7px;
     left: 50%;
     width: 100%;
     transform: translateX(-50%);
     transition: 0.2s;
-    z-index: 1;
+    /* z-index: 1; */
     background: white;
+    height: 265px;
+    overflow-y: scroll;
 }
 
 .menu li {
@@ -172,6 +175,24 @@ body {
 
 .menu__item:hover {
     background: #FFD15B;
+}
+
+/* Stylisation de la barre de défilement */
+.menu::-webkit-scrollbar {
+    /* barre de défilement */
+    width: 10px;
+}
+
+.menu::-webkit-scrollbar-thumb {
+    /* onglet de la barre de défilement */
+    background-color: grey;
+    border-radius: 50px;
+}
+
+.menu::-webkit-scrollbar-track {
+    /* arrière-plan de la barre de défilement */
+    background-color: #f1f1f1;
+    border-radius: 50px;
 }
 
 .searchContainerDropdown {
@@ -227,8 +248,10 @@ body {
     display: block;
     opacity: 1;
     background: white;
-    top: -7px;
+    top: 50px;
     height: 50px;
+    position: absolute;
+    width: 100%;
 }
 
 .totalRecipes {

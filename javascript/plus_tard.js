@@ -278,3 +278,87 @@ A JETER
     
 //     return recipesA3
 // }
+
+
+
+
+
+
+
+
+////////////// INGREDIENTS //////////////////////////////////////////////////
+/**
+ * Récupère tous les ingredients de recipes
+ */
+function getIngredientsList(recipes){
+    console.log(recipes);
+    const ingredientsList = new Set();
+
+    // Récupération des ingrédients
+    recipes.forEach(recipe => {
+        recipe.ingredients.forEach(ingredient => {
+            ingredientsList.add(ingredient.ingredient.toLowerCase());
+        }); 
+    });
+    
+    // tri par ordre alphabétique en prenant en compte les accents
+    const sortedIngredients = Array.from(ingredientsList).sort((a, b) => {
+        return a.localeCompare(b, 'fr', { sensitivity: 'base' });
+    })
+    return sortedIngredients;
+}
+
+/** 
+ * Affiche les tags ingredients
+ **/
+function displayIngredientsTags(ingredientsList){
+    //const ingredientsList = getIngredientsList(recipes); // Obtenir la liste des ingrédients triés
+
+    // Réinitialisation de l'affichage des ingrédients tags
+    ingredientsListDOM.innerHTML = '';
+
+    const menuNode = document.createElement("ul");
+    menuNode.classList.add("menu");
+
+    // Ajouter chaque ingrédient comme un élément de liste (li)
+    ingredientsList.forEach(ingredientText => {
+        const newNode = document.createElement("li");
+        newNode.classList.add("menu__item");
+        newNode.innerHTML = ingredientText;
+
+        newNode.addEventListener('click', () => { 
+            newNode.remove();
+            const selectedIngredientsList = document.getElementById("selectedIngredientsList");
+            const newSelectedItem = document.createElement("li");
+            newSelectedItem.classList.add("newItem");
+            console.log('click sur ingredient', ingredientText);
+
+            // mettre à jour la valeur de la liste avec l'ingrédient sélectionné
+            newSelectedItem.innerHTML = `
+                ${ingredientText}
+                <button class="btnCancel"><i class="fa-solid fa-xmark"></i></button>
+            `;
+            //newSelectedItem.textContent = ingredientText;
+
+            // pour enlever un tag
+            const removeItem = newSelectedItem.querySelector(".btnCancel");
+            removeItem.addEventListener('click', () => {
+                //newNode.appendChild(newSelectedItem);
+                newSelectedItem.remove();
+                //menuNode.appendChild(newNode);
+                //insertSortedNode(menuNode, newNode); // Réinsérer le nœud dans la liste triée
+            });
+
+            selectedIngredientsList.appendChild(newSelectedItem);
+            //newNode.remove();
+            
+            // sortRecipesBySelectedIngredients();
+        });
+
+        // Ajouter la liste à votre conteneur dans le DOM
+        menuNode.appendChild(newNode);
+        
+    });
+
+    ingredientsListDOM.appendChild(menuNode);
+}

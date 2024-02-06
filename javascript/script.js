@@ -147,10 +147,8 @@ async function startSortRecipes(){
  *  @params recipes - Liste de toutes les recettes à trier
  */
 function sortRecipes(recipes){
-
     const recipesA1 = sortRecipesBySearch(recipes);
     const recipesA2 = sortRecipesByIngredients(recipesA1) 
-
     const recipesA3 = sortRecipesByAppareils(recipesA2) 
     const recipesA4 = sortRecipesByUstensiles(recipesA3)
 
@@ -301,6 +299,28 @@ function sortRecipesByUstensiles(recipes) {
     return Array.from(recipesA4); // Transformation du Set en Tableau
 }
 
+/**
+ * fonction pour réinsérer les tags supprimés, et les trier par ordre alphabétique
+ * @param {*} menuNode 
+ * @param {*} newNode 
+ */
+function insertSortedNode(menuNode, newNode) {
+    const nodes = menuNode.childNodes;
+    let index = 0;
+
+    // Trouver l'index d'insertion en comparant les textes des nœuds
+    while (index < nodes.length && nodes[index].innerText.toLowerCase() < newNode.innerText.toLowerCase()) {
+        index++;
+    }
+
+    // Insérer le nouvel élément à l'index trouvé
+    if (index === nodes.length) {
+        menuNode.appendChild(newNode);
+    } else {
+        menuNode.insertBefore(newNode, nodes[index]);
+    }
+}
+
 
 ////////////// INGREDIENTS //////////////////////////////////////////////////
 /**
@@ -341,13 +361,11 @@ function displayIngredientsTags(ingredientsList){
         newNode.innerHTML = ingredientText;
 
         newNode.addEventListener('click', () => { 
-            newNode.remove();
+            // newNode.remove();
             const selectedIngredientsList = document.getElementById("selectedIngredientsList");
             const newSelectedItem = document.createElement("li");
             newSelectedItem.classList.add("newItem");
             console.log('click sur ingredient', ingredientText);
-
-            //let currentNewNode = newNode;
 
             // mettre à jour la valeur de la liste avec l'ingrédient sélectionné
             newSelectedItem.innerHTML = `
@@ -359,15 +377,14 @@ function displayIngredientsTags(ingredientsList){
             // pour enlever un tag
             const removeItem = newSelectedItem.querySelector(".btnCancel");
             removeItem.addEventListener('click', () => {
-                //newNode.appendChild(newSelectedItem);
                 newSelectedItem.remove();
-                //reinsertNode(newNode);
+                console.log('suppression de ', ingredientText);
+                insertSortedNode(menuNode, newNode);
             });
 
             selectedIngredientsList.appendChild(newSelectedItem);
 
-            
-            // sortRecipesBySelectedIngredients();
+            newNode.remove();
         });
 
         // Ajouter la liste à votre conteneur dans le DOM
@@ -376,10 +393,6 @@ function displayIngredientsTags(ingredientsList){
 
     ingredientsListDOM.appendChild(menuNode);
 }
-
-// function reinsertNode(node) {
-//     ingredientsListDOM.appendChild(node);
-// }
 
 //////////////////////// APPAREILS //////////////////////////////////////////////////
 /**
@@ -417,7 +430,7 @@ function displayAppliancesTags(appliancesList){
         newNode.innerHTML = applianceText;
 
         newNode.addEventListener('click', () => {
-            newNode.remove();
+            //newNode.remove();
             const selectedAppliancesList = document.getElementById("selectedAppliancesList");
             const newSelectedItem = document.createElement("li");
             newSelectedItem.classList.add("newItem");
@@ -434,9 +447,12 @@ function displayAppliancesTags(appliancesList){
             const removeItem = newSelectedItem.querySelector(".btnCancel");
             removeItem.addEventListener('click', () => {
                 newSelectedItem.remove();
+                insertSortedNode(menuNode, newNode);
             });
 
             selectedAppliancesList.appendChild(newSelectedItem);
+
+            newNode.remove();
         })
 
         // Ajouter la liste à votre conteneur dans le DOM
@@ -445,6 +461,7 @@ function displayAppliancesTags(appliancesList){
 
     appliancesListDOM.appendChild(menuNode);
 }
+
 
 ///////////////////////////////// USTENSILES /////////////////////////////////////////
 /**
@@ -484,7 +501,7 @@ function displayUstensilesTags(ustensilesList){
         newNode.innerHTML = ustensileText;
 
         newNode.addEventListener('click', () => {
-            newNode.remove();
+            //newNode.remove();
             const selectedUstensilsList = document.getElementById("selectedUstensilsList");
             const newSelectedItem = document.createElement("li");
             newSelectedItem.classList.add("newItem");
@@ -501,9 +518,12 @@ function displayUstensilesTags(ustensilesList){
             const removeItem = newSelectedItem.querySelector(".btnCancel");
             removeItem.addEventListener('click', () => {
                 newSelectedItem.remove();
+                insertSortedNode(menuNode, newNode);
             });
 
             selectedUstensilsList.appendChild(newSelectedItem);
+
+            newNode.remove();
         });
 
         // Ajouter la liste à votre conteneur dans le DOM
@@ -514,7 +534,36 @@ function displayUstensilesTags(ustensilesList){
 }
 
 
+////////////////////////////// BARRE DE RECHERCHE DES TAGS /////////////////////////////////
+// document.getElementById('searchInput').addEventListener('input', function() {
+//     const searchValue = this.value.toLowerCase();
+//     const listItems = document.querySelectorAll('.menu li');
+  
+//     listItems.forEach(function(item) {
+//         const text = item.textContent.toLowerCase();
+//         if (text.includes(searchValue)) {
+//             item.style.display = 'list-item'; // Afficher l'élément s'il correspond à la recherche
+//         } else {
+//             item.style.display = 'none'; // Masquer l'élément s'il ne correspond pas à la recherche
+//         }
+//     });
+// });
+// const searchInputTag = document.querySelector('#searchInput');
+// const searchResult = document.querySelector('.table_results');
+// let dataArray;
 
+// function filterTags(e) {
+//     searchResult.innerHTML = "";
+//     const searchedString = e.target.value.toLowerCase().replace(/\s/g, "");
+
+//     const filteredArray = dataArray.filter(el => 
+//         el.ingredients.ingredient.toLowerCase().includes(searchedString)
+//     );
+
+//     displayIngredientsTags(filteredArray);
+// }
+
+// searchInputTag.addEventListener("input", filterTags);
 
 
 
