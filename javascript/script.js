@@ -12,6 +12,9 @@ const selectedUstensilsList = document.getElementById("selectedUstensilsList");
 // Partie formulaire
 const formDOM = document.querySelector('#searchForm');
 const inputSearchDOM = document.querySelector('#searchInput');
+const searchInputIngredients = document.querySelector('#searchInputIngredients');
+const searchInputAppliances = document.querySelector('#searchInputAppliances');
+const searchInputUstensils = document.querySelector('#searchInputUstensils');
 
 
 /**
@@ -92,7 +95,7 @@ function displayRecipes(listRecipes) {
   
         // On ajoute le nouveau noeud de la recette dans le DOM
         recipesDOM.appendChild(divCard);
-    }
+    };
 }
 
 /**
@@ -112,34 +115,33 @@ function displayCountTotalRecipes() {
 formDOM.addEventListener('submit',(event) => {
     event.preventDefault();
     startSortRecipes()
-})
-
+});
 
 inputSearchDOM.addEventListener('keyup', () => {
     startSortRecipes()
-})
+});
 
 /**
  * Fonction qui récupère toutes les recettes, les trie en fonction des tags sélectionnés
  */
-async function startSortRecipes(){
+async function startSortRecipes() {
     // Récupération de toutes les recettes dans le fichier .json
     const listRecipes = await getRecipes();
     
     // Tri des recettes avec l'algorithme custom
-    const recipesA4 = sortRecipes(listRecipes)
+    const recipesA4 = sortRecipes(listRecipes);
     
     // Affichage tags ingrédients
-    const ingredientsList = getIngredientsList(recipesA4)
-    displayIngredientsTags(ingredientsList)
+    const ingredientsList = getIngredientsList(recipesA4);
+    displayIngredientsTags(ingredientsList);
 
     // Affichage tags appareils
-    const appliancesList = getAppliancesList(recipesA4)
-    displayAppliancesTags(appliancesList)
+    const appliancesList = getAppliancesList(recipesA4);
+    displayAppliancesTags(appliancesList);
 
     // Affichage tags ustensiles
-    const ustensilesList = getUstensilesList(recipesA4)
-    displayUstensilesTags(ustensilesList)
+    const ustensilesList = getUstensilesList(recipesA4);
+    displayUstensilesTags(ustensilesList);
 
     // Il faut afficher recipesA4
     displayRecipes(recipesA4);
@@ -152,9 +154,9 @@ async function startSortRecipes(){
  */
 function sortRecipes(recipes){
     const recipesA1 = sortRecipesBySearch(recipes);
-    const recipesA2 = sortRecipesByIngredients(recipesA1) 
-    const recipesA3 = sortRecipesByAppareils(recipesA2) 
-    const recipesA4 = sortRecipesByUstensiles(recipesA3)
+    const recipesA2 = sortRecipesByIngredients(recipesA1);
+    const recipesA3 = sortRecipesByAppareils(recipesA2); 
+    const recipesA4 = sortRecipesByUstensiles(recipesA3);
 
     return recipesA4;
 }
@@ -172,7 +174,7 @@ function sortRecipesBySearch(recipes){
 
     // Récupération du résultat de la barre de recherche
     const userSearch = inputSearchDOM.value.toLowerCase();
-    if(userSearch.length < 3) return recipes
+    if(userSearch.length < 3) return recipes;
 
     // Parcours de la liste de toutes les recettes
     for(let i = 0; i < recipes.length; i++) {
@@ -325,6 +327,7 @@ function insertSortedNode(menuNode, newNode) {
 
 
 ////////////// INGREDIENTS //////////////////////////////////////////////////
+
 /**
  * Récupère tous les ingredients de recipes
  */
@@ -587,63 +590,32 @@ function displayUstensilesTags(ustensilesList){
 
 
 ////////////////////////////// BARRE DE RECHERCHE DES TAGS /////////////////////////////////
-// document.getElementById('searchInput').addEventListener('input', function() {
-//     const searchValue = this.value.toLowerCase();
-//     const listItems = document.querySelectorAll('.menu li');
-  
-//     listItems.forEach(function(item) {
-//         const text = item.textContent.toLowerCase();
-//         if (text.includes(searchValue)) {
-//             item.style.display = 'list-item'; // Afficher l'élément s'il correspond à la recherche
+// /**
+//  * Trie les recettes via la barre de recherche
+//  * @params recipes - Liste de toutes les recettes à trier
+//  */
+// function filterIngredients() {
+//     // Récupérer la valeur entrée dans la barre de recherche
+//     const input = document.getElementById('searchInputIngredients').value.toLowerCase(); //OK
+//     console.log(input);
+//     // Récupérer la liste des ingrédients
+//     const ingredientsList = document.getElementById('ingredients'); //OK
+//     console.log(ingredientsList);
+//     const items = ingredientsList.getElementsByTagName('div');
+//     console.log(items);
+    
+//     // Parcourir tous les ingrédients et les afficher ou les masquer en fonction de la correspondance avec la recherche
+//     for (let i = 0; i < items.length; i++) {   
+//         const itemName = items[i].textContent || items[i].innerText;
+//         if (itemName.toUpperCase().indexOf(input) > -1) {
+//             items[i].style.display = '';
 //         } else {
-//             item.style.display = 'none'; // Masquer l'élément s'il ne correspond pas à la recherche
+//             items[i].style.display = 'none';
 //         }
-//     });
-// });
-// const searchInputTag = document.querySelector('#searchInput');
-// const searchResult = document.querySelector('.table_results');
-// let dataArray;
-
-// function filterTags(e) {
-//     searchResult.innerHTML = "";
-//     const searchedString = e.target.value.toLowerCase().replace(/\s/g, "");
-
-//     const filteredArray = dataArray.filter(el => 
-//         el.ingredients.ingredient.toLowerCase().includes(searchedString)
-//     );
-
-//     displayIngredientsTags(filteredArray);
+//     }
 // }
-
-// searchInputTag.addEventListener("input", filterTags);
-
-
-/*
-    const searchInput = document.getElementById('searchInput');
-    const ingredientsContainer = document.getElementById('ingredients');
-
-    // Votre liste d'ingrédients provenant du tableau JSON
-    //const ingredientsList = ["Sel", "Poivre", "Sucre", "Farine", "Beurre", "Oeufs", "Lait", "Huile", "Chocolat", "Levure"];
-
-    // Fonction pour afficher les ingrédients filtrés
-    function displayFilteredIngredients(filter) {
-        const filteredIngredients = recipes.filter(ingredient =>
-            ingredient.toLowerCase().includes(filter.toLowerCase())
-        );
-
-        const html = filteredIngredients.map(ingredient => `<div>${ingredient}</div>`).join('');
-        ingredientsContainer.innerHTML = html;
-    }
-
-    // Écoute des événements de saisie dans la barre de recherche
-    searchInput.addEventListener('input', function(event) {
-        const searchTerm = event.target.value.trim();
-        displayFilteredIngredients(searchTerm);
-    });
-    */
-
-
-
+// // Ajouter un écouteur d'événements pour détecter les changements dans la barre de recherche
+// document.getElementById('searchInputIngredients').addEventListener('input', filterIngredients);
 
 
 
