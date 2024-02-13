@@ -186,15 +186,13 @@ function sortRecipesBySearch(recipes){
              // OUI : On met cette recette dans recipesA1
             recipesA1.push(recipe);    
         } else {
-            // NON :
-            // Est-ce que la recette comporte la recherche de l'utilisateur dans la description ?
+            // NON : Est-ce que la recette comporte la recherche de l'utilisateur dans la description ?
             const description = recipe.description.toLowerCase();
             if(description.includes(userSearch)) {
                 // OUI : On met cette recette dans recipesA1
                 recipesA1.push(recipe);
             } else {
-                // NON : 
-                // Est-ce que la recette comporte la recherche dans les ingredients ?
+                // NON : Est-ce que la recette comporte la recherche dans les ingredients ?
                 let ingredientFound = false;
                 for(let j = 0; j < recipe.ingredients.length; j++) {
                     const ingredient = recipe.ingredients[j].ingredient.toLowerCase();
@@ -355,6 +353,30 @@ function getIngredientsList(recipes){
     return sortedIngredients;
 }
 
+/**
+ * permet de filtrer les ingrédients par rapport à ce qui est tapé dans la barre de recherche du dropdown
+ */
+function filterIngredients() {
+    // Réinitialisation de l'affichage des ustensiles tags
+    searchInputIngredients.value = '';
+
+    const searchBar = document.getElementById('searchInputIngredients');
+    const ingredientsList = document.querySelectorAll('.menu li');
+
+    searchBar.addEventListener('input', function() {
+        const searchTerm = searchBar.value.toLowerCase();
+
+        ingredientsList.forEach(ingredient => {
+            const text = ingredient.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                ingredient.style.display = 'block';
+            } else {
+                ingredient.style.display = 'none';
+            }
+        });
+    });
+}
+
 /** 
  * Affiche les tags ingredients
  **/
@@ -373,6 +395,13 @@ function displayIngredientsTags(ingredientsList){
         newNode.classList.add("menu__item");
         newNode.innerHTML = ingredientText;
         menuNode.appendChild(newNode);
+
+        // CHEVRON
+        const list = document.querySelector(".list");
+        const chevron = document.querySelector(".fa-chevron-down");
+        // CHEVRON
+        list.classList.remove("list-open");
+        chevron.classList.remove("fa-chevron-down-rotate");
 
         /**
          * Clic sur un ingredient dans le dropdown
@@ -411,6 +440,8 @@ function displayIngredientsTags(ingredientsList){
     });
 
     ingredientsListDOM.appendChild(menuNode);
+    // filtre des ingrédients en fonction de la barre de recherche du dropdown
+    filterIngredients();
 }
 
 //////////////////////// APPAREILS //////////////////////////////////////////////////
@@ -439,6 +470,30 @@ function getAppliancesList(recipes){
     return sortedAppliances;
 }
 
+/**
+ * permet de filtrer les appareils par rapport à ce qui est tapé dans la barre de recherche du dropdown
+ */
+function filterAppliances() {
+    // Réinitialisation de l'affichage des ustensiles tags
+    searchInputAppliances.value = '';
+
+    const searchBar = document.getElementById('searchInputAppliances');
+    const appliancesList = document.querySelectorAll('.menu li');
+
+    searchBar.addEventListener('input', function() {
+        const searchTerm = searchBar.value.toLowerCase();
+
+        appliancesList.forEach(appliance => {
+            const text = appliance.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                appliance.style.display = 'block';
+            } else {
+                appliance.style.display = 'none';
+            }
+        });
+    });
+}
+
 /** 
  * Affiche les tags appareils
  **/
@@ -447,17 +502,24 @@ function displayAppliancesTags(appliancesList){
     appliancesListDOM.innerHTML = '';
 
     const menuNode = document.createElement("ul");
-    menuNode.classList.add('menu');
+    menuNode.classList.add("menu");
 
     // Ajouter chaque appareil comme un élément de liste (li)
     appliancesList.forEach(applianceText => {
 
         // Création de l'appareil à ajouter dans le dropdown
         const newNode = document.createElement("li");
-        newNode.classList.add('menu__item');
+        newNode.classList.add("menu__item");
         newNode.innerHTML = applianceText;
         // Ajouter la liste à votre conteneur dans le DOM
         menuNode.appendChild(newNode);
+
+        // CHEVRON
+        const list = document.querySelector(".list");
+        const chevron = document.querySelector(".fa-chevron-down");
+        // // CHEVRON
+        // list.classList.remove("list-open");
+        // chevron.classList.remove("fa-chevron-down-rotate");
 
         /**
          * Clic sur un appareil dans le dropdown
@@ -491,11 +553,16 @@ function displayAppliancesTags(appliancesList){
                 startSortRecipes();
 
                 console.log('suppression de ', applianceText);
-            });
+            }); 
         });
+        // CHEVRON
+        list.classList.remove("list-open");
+        chevron.classList.remove("fa-chevron-down-rotate");
     });
 
     appliancesListDOM.appendChild(menuNode);
+    // filtre des appareils en fonction de la barre de recherche du dropdown
+    filterAppliances();
 }
 
 
@@ -528,6 +595,30 @@ function getUstensilesList(recipes){
 }
 
 /**
+ * permet de filtrer les ustensiles par rapport à ce qui est tapé dans la barre de recherche du dropdown
+ */
+function filterUstensils() {
+    // Réinitialisation de l'affichage des ustensiles tags
+    searchInputUstensils.value = '';
+
+    const searchBar = document.getElementById('searchInputUstensils');
+    const ustensilsList = document.querySelectorAll('.menu li');
+
+    searchBar.addEventListener('input', function() {
+        const searchTerm = searchBar.value.toLowerCase();
+
+        ustensilsList.forEach(ustensil => {
+            const text = ustensil.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                ustensil.style.display = 'block';
+            } else {
+                ustensil.style.display = 'none';
+            }
+        });
+    });
+}
+
+/**
  * Affiche les tags ustensiles
  */
 function displayUstensilesTags(ustensilesList){
@@ -546,6 +637,13 @@ function displayUstensilesTags(ustensilesList){
         newNode.innerHTML = ustensileText;
         // Ajouter la liste à votre conteneur dans le DOM
         menuNode.appendChild(newNode);
+
+        // CHEVRON
+        const list = document.querySelector(".list");
+        const chevron = document.querySelector(".fa-chevron-down");
+        // CHEVRON
+        list.classList.remove("list-open");
+        chevron.classList.remove("fa-chevron-down-rotate");
 
         /**
          * Clic sur un ustennsile dans le dropdown
@@ -582,40 +680,23 @@ function displayUstensilesTags(ustensilesList){
 
                 console.log('suppression de ', ustensileText);
             });
+            // CHEVRON
+        //list.classList.remove("list-open");
+        //chevron.classList.remove("fa-chevron-down-rotate");
         });
+        // CHEVRON
+        //list.classList.remove("list-open");
+        //chevron.classList.remove("fa-chevron-down-rotate");
     });
 
     ustensilesListDom.appendChild(menuNode);
+    // filtre des ustensiles en fonction de la barre de recherche du dropdown
+    filterUstensils();
 }
 
 
 ////////////////////////////// BARRE DE RECHERCHE DES TAGS /////////////////////////////////
-// /**
-//  * Trie les recettes via la barre de recherche
-//  * @params recipes - Liste de toutes les recettes à trier
-//  */
-// function filterIngredients() {
-//     // Récupérer la valeur entrée dans la barre de recherche
-//     const input = document.getElementById('searchInputIngredients').value.toLowerCase(); //OK
-//     console.log(input);
-//     // Récupérer la liste des ingrédients
-//     const ingredientsList = document.getElementById('ingredients'); //OK
-//     console.log(ingredientsList);
-//     const items = ingredientsList.getElementsByTagName('div');
-//     console.log(items);
-    
-//     // Parcourir tous les ingrédients et les afficher ou les masquer en fonction de la correspondance avec la recherche
-//     for (let i = 0; i < items.length; i++) {   
-//         const itemName = items[i].textContent || items[i].innerText;
-//         if (itemName.toUpperCase().indexOf(input) > -1) {
-//             items[i].style.display = '';
-//         } else {
-//             items[i].style.display = 'none';
-//         }
-//     }
-// }
-// // Ajouter un écouteur d'événements pour détecter les changements dans la barre de recherche
-// document.getElementById('searchInputIngredients').addEventListener('input', filterIngredients);
+
 
 
 
