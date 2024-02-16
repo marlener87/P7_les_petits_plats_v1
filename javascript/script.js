@@ -1,5 +1,5 @@
 // Partie recettes
-const recipesDOM = document.querySelector(".cardsRecipe");
+const recipesDOM = document.querySelector(".cardsRecipe");   
 const totalRecipesDOM = document.querySelector(".totalRecipes");
 
 const ingredientsListDOM = document.getElementById("ingredients");
