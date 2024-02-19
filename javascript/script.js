@@ -39,9 +39,7 @@ function displayRecipes(listRecipes) {
     recipesDOM.innerHTML = '';
 
     // On parcourt la liste des recettes reçue en paramètre
-    for (let i = 0; i < listRecipes.length; i++) {
-        const item = listRecipes[i]; // On récupère la recette courante
-
+    listRecipes.forEach(item => {
         // On crée le nouveau noeud correspondant à la carte d'une recette
         const divCard = document.createElement("a");
         divCard.classList.add("card");
@@ -51,8 +49,7 @@ function displayRecipes(listRecipes) {
         const divBlockIngredient = document.createElement("div");
         divBlockIngredient.classList.add("blockIngredient");
     
-        for (let j = 0; j < item.ingredients.length; j++) {
-            const ingredient = item.ingredients[j];
+        item.ingredients.forEach(ingredient => {
             const divIngredients = document.createElement("div");
             divIngredients.classList.add("ingredientQuantite");
     
@@ -66,7 +63,7 @@ function displayRecipes(listRecipes) {
             `;
     
             divBlockIngredient.appendChild(divIngredients);
-        };
+        });
     
         // On complète le contenu du noeud de la recette
         divCard.innerHTML = `
@@ -95,9 +92,8 @@ function displayRecipes(listRecipes) {
   
         // On ajoute le nouveau noeud de la recette dans le DOM
         recipesDOM.appendChild(divCard);
-    };
+    });
 };
-
 /**
 * Affiche dans le DOM le nombre de recettes
 */
@@ -173,10 +169,7 @@ function sortRecipesBySearch(recipes) {
     if(userSearch.length < 3) return recipes;
 
     // Parcours de la liste de toutes les recettes
-    // recipes.forEach(recipe => )
-    for(let i = 0; i < recipes.length; i++) {
-        const recipe = recipes[i];
-        
+    recipes.forEach(recipe => {
         // Est-ce que la recette comporte la recherche de l'utilisateur dans le titre ?
         const title = recipe.name.toLowerCase();
         if(title.includes(userSearch)) {
@@ -191,18 +184,18 @@ function sortRecipesBySearch(recipes) {
             } else {
                 // NON : Est-ce que la recette comporte la recherche dans les ingredients ?
                 let ingredientFound = false;
-                for(let j = 0; j < recipe.ingredients.length; j++) {
-                    const ingredient = recipe.ingredients[j].ingredient.toLowerCase();
-                    if (ingredient.includes(userSearch)) {
+                recipe.ingredients.forEach(ingredient => {
+                    const ingredientText = ingredient.ingredient.toLowerCase();
+                    if (ingredientText.includes(userSearch)) {
                         // OUI : On met cette recette dans recipesA1
                         recipesA1.push(recipe);
                         ingredientFound = true;
-                        break; // Sortir de la boucle si un ingrédient est trouvé
+                        return; // Sortir de la boucle si un ingrédient est trouvé
                     };
-                };
+                });
             };       
         };
-    };
+    });
     return recipesA1;
 };
 
@@ -225,7 +218,7 @@ function sortRecipesByIngredients(recipes) {
     if(tagsIngredientsSelected.length < 1) return recipes;
 
     recipes.forEach(recipe => { // Parcourt de toutes les recettes
-        // On créer un tableau de la forme ['banane', 'mangue'] à partir de la liste des ingrédients de chaque recette
+        // On crée un tableau de la forme ['banane', 'mangue'] à partir de la liste des ingrédients de chaque recette
         // recipe : {
         //     ingredients : [ // recipe.ingredients
         //         {ingredient: 'Banane', quantity : 10}, // object
@@ -676,14 +669,11 @@ async function init(){
 
 init();
 
-
 /**
  * ROADMAP: 
  * - Terminer la fiche d'investigation
- * - Sur une autre branche de git, remplacer toutes les boucles for par des boucles map
  * - Faire le benchmark de différences de performences entre les algo
  * - Checker que l'algorigramme fais bien ce que ton code il fait
- * - Faire une nouvelle branche avec la V2 (remplace foreach par for)
  * - Bien relire le code et le comprendre !
  */
 
