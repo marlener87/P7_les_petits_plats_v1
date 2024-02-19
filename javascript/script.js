@@ -173,7 +173,6 @@ function sortRecipesBySearch(recipes) {
     if(userSearch.length < 3) return recipes;
 
     // Parcours de la liste de toutes les recettes
-    // recipes.forEach(recipe => )
     for(let i = 0; i < recipes.length; i++) {
         const recipe = recipes[i];
         
@@ -213,34 +212,39 @@ function sortRecipesBySearch(recipes) {
  */
 function sortRecipesByIngredients(recipes) {
     const recipesA2 = new Set(); // Set : pour éviter les doublons de recettes
-
     const tagsIngredientsSelected = []; // Initialisation du tableau des tags ingredients selectionnés
 
     // On récupère tous les tags selectionnés
     const itemNodes = document.querySelectorAll('#selectedIngredientsList li'); // retourne une NodeList
-    itemNodes.forEach(node => {
-        tagsIngredientsSelected.push(node.innerText); // On remplit TagsIngredientsSelected
-    });
+
+    for(let i = 0; i < itemNodes.length; i++) {
+        const node = itemNodes[i];
+        tagsIngredientsSelected.push(node.innerText);
+    };
 
     if(tagsIngredientsSelected.length < 1) return recipes;
 
-    recipes.forEach(recipe => { // Parcourt de toutes les recettes
-        // On créer un tableau de la forme ['banane', 'mangue'] à partir de la liste des ingrédients de chaque recette
-        // recipe : {
-        //     ingredients : [ // recipe.ingredients
-        //         {ingredient: 'Banane', quantity : 10}, // object
-        //         {ingredient: 'Mangue' , quantity : 1} 
-        //     ]
-        // }
-        const recipeIngredientsArray = recipe.ingredients.map(object => {
-            return object.ingredient.toLowerCase();
-        }); // => ['banane', 'mangue']
+    for(let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
 
-        // Every retourne Vrai si tous les elements du tableau tagsIngredientsSelected respectent la condition recipeIngredientsList.include(tag)
-        if(tagsIngredientsSelected.every(tag => recipeIngredientsArray.includes(tag))) {
-            recipesA2.add(recipe);
+        const recipeIngredientsArray = [];
+        for(let j = 0; j < recipe.ingredients.length; j++) {
+            const ingredient = recipe.ingredients[j];
+            recipeIngredientsArray.push(ingredient.ingredient.toLowerCase());
         };
-    });      
+
+        let allTagsIncluded = true;
+        for(let k = 0; k < tagsIngredientsSelected.length; k++) {
+            const tag = tagsIngredientsSelected[k];
+            if(!recipeIngredientsArray.includes(tag)) {
+                allTagsIncluded = false;
+                break;
+            };
+        };
+        if(allTagsIncluded) {
+            recipesA2.add(recipe);
+        };    
+    };
     return Array.from(recipesA2); // Transformation du Set en Tableau
 };
 
@@ -254,19 +258,21 @@ function sortRecipesByAppareils(recipes) {
     const tagsAppliancesSelected = []; // Initialisation du tableau des tags appareils selectionnés
     const itemNodes = document.querySelectorAll('#selectedAppliancesList li'); // On récupère tous les tags selectionnés
 
-    itemNodes.forEach(node => {
+    for (let i = 0; i < itemNodes.length; i++) {
+        const node = itemNodes[i];
         tagsAppliancesSelected.push(node.innerText.toLowerCase()); // On remplit tagsAppliancesSelected
-    });
+    };
 
     if(tagsAppliancesSelected.length < 1) return recipes;
     
-    recipes.forEach(recipe => { // Parcourt de toutes les recettes
+    for (let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
         const recipeAppliance = recipe.appliance.toLowerCase();
-
-        if(tagsAppliancesSelected.includes(recipeAppliance)) {
+    
+        if (tagsAppliancesSelected.includes(recipeAppliance)) {
             recipesA3.add(recipe);
         };
-    });
+    };
     return Array.from(recipesA3); // Transformation du Set en Tableau
 };
 
@@ -280,19 +286,34 @@ function sortRecipesByUstensiles(recipes) {
     const tagsUstensilsSelected = []; // Initialisation du tableau des tags ustensiles selectionnés
     const itemNodes = document.querySelectorAll('#selectedUstensilsList li'); // On récupère tous les tags selectionnés
 
-    itemNodes.forEach(node => {
+    for(let i = 0; i < itemNodes.length; i++) {
+        const node = itemNodes[i];
         tagsUstensilsSelected.push(node.innerText); // On remplit tagsUstensilsSelected
-    });
+    };
 
     if(tagsUstensilsSelected.length < 1) return recipes;
 
-    recipes.forEach(recipe => { // Parcourt de toutes les recettes
-        const recipeUstensilsArray = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
-        
-        if(tagsUstensilsSelected.every(tag => recipeUstensilsArray.includes(tag))) {
+    for(let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
+
+        const recipeUstensilsArray = [];
+        for(let j = 0; j < recipe.ingredients.length; j++) {
+            const ingredient = recipe.ingredients[j];
+            recipeUstensilsArray.push(ingredient.ingredient.toLowerCase());
+        };
+
+        let allTagsIncluded = true;
+        for(let k = 0; k < tagsUstensilsSelected.length; k++) {
+            const tag = tagsUstensilsSelected[k];
+            if(!recipeUstensilsArray.includes(tag)) {
+                allTagsIncluded = false;
+                break;
+            };
+        };
+        if(allTagsIncluded) {
             recipesA4.add(recipe);
         };
-    });
+    };
     return Array.from(recipesA4); // Transformation du Set en Tableau
 };
 
@@ -308,7 +329,7 @@ function insertSortedNode(menuNode, newNode) {
     // Trouver l'index d'insertion en comparant les textes des nœuds
     while (index < nodes.length && nodes[index].innerText.toLowerCase() < newNode.innerText.toLowerCase()) {
         index++;
-    }
+    };
 
     // Insérer le nouvel élément à l'index trouvé
     if (index === nodes.length) {
@@ -327,17 +348,20 @@ function getIngredientsList(recipes) {
     const ingredientsList = new Set();
 
     // Récupération des ingrédients
-    recipes.forEach(recipe => {
-        recipe.ingredients.forEach(ingredient => {
+    for (let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
+        for (let j = 0; j < recipe.ingredients.length; j++) {
+            const ingredient = recipe.ingredients[j];
             ingredientsList.add(ingredient.ingredient.toLowerCase());
-        }); 
-    });
+        };
+    };
     
-    // Suppression des ingredients déjà selectionnés
+    // Suppression des ingrédients déjà sélectionnés
     const selectedTagIngredients = document.querySelectorAll("#selectedIngredientsList li");
-    selectedTagIngredients.forEach(tag => {
+    for (let i = 0; i < selectedTagIngredients.length; i++) {
+        const tag = selectedTagIngredients[i];
         ingredientsList.delete(tag.innerText.toLowerCase());
-    });
+    };
 
     // tri par ordre alphabétique en prenant en compte les accents
     const sortedIngredients = Array.from(ingredientsList).sort((a, b) => {
@@ -359,14 +383,15 @@ function filterIngredients() {
     searchBar.addEventListener("input", function() {
         const searchTerm = searchBar.value.toLowerCase();
 
-        ingredientsList.forEach(ingredient => {
+        for (let i = 0; i < ingredientsList.length; i++) {
+            const ingredient = ingredientsList[i];
             const text = ingredient.textContent.toLowerCase();
             if (text.includes(searchTerm)) {
                 ingredient.style.display = "block";
             } else {
                 ingredient.style.display = "none";
             };
-        });
+        };
     });
 };
 
@@ -381,7 +406,9 @@ function displayIngredientsTags(ingredientsList) {
     menuNode.classList.add("menu");
 
     // Ajouter chaque ingrédient comme un élément de liste (li)
-    ingredientsList.forEach(ingredientText => {
+    for (let i = 0; i < ingredientsList.length; i++) {
+        const ingredientText = ingredientsList[i];
+    
         // Création de l'ingredient à ajouter dans le dropdown
         const newNode = document.createElement("li");
         newNode.classList.add("menu__item");
@@ -411,7 +438,6 @@ function displayIngredientsTags(ingredientsList) {
             // CHEVRON
             const list = ingredientsListDOM.closest(".list");
             const chevron = ingredientsListDOM.closest(".dropdown").querySelector('.fa-chevron-down');
-            // CHEVRON
             list.classList.remove("list-open");
             chevron.classList.remove("fa-chevron-down-rotate");
 
@@ -426,7 +452,7 @@ function displayIngredientsTags(ingredientsList) {
                 startSortRecipes();
             });
         });
-    });
+    };
     ingredientsListDOM.appendChild(menuNode);
     // filtre des ingrédients en fonction de la barre de recherche du dropdown
     filterIngredients();
@@ -440,15 +466,17 @@ function getAppliancesList(recipes) {
     const appliancesList = new Set();
 
     // Récupération des appareils
-    recipes.forEach(recipe => {
+    for (let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
         appliancesList.add(recipe.appliance.toLowerCase()); 
-    });
+    };
 
     // Suppression des appareils déjà sélectionnés
-    const selecetdTagAppliances = document.querySelectorAll("#selectedAppliancesList li");
-    selecetdTagAppliances.forEach(tag => {
+    const selectedTagAppliances = document.querySelectorAll("#selectedAppliancesList li");
+    for (let i = 0; i < selectedTagAppliances.length; i++) {
+        const tag = selectedTagAppliances[i];
         appliancesList.delete(tag.innerText.toLowerCase());
-    });
+    };
 
     // tri par ordre alphabétique en prenant en compte les accents
     const sortedAppliances = Array.from(appliancesList).sort((a, b) => {
@@ -470,14 +498,15 @@ function filterAppliances() {
     searchBar.addEventListener("input", function() {
         const searchTerm = searchBar.value.toLowerCase();
 
-        appliancesList.forEach(appliance => {
+        for (let i = 0; i < appliancesList.length; i++) {
+            const appliance = appliancesList[i];
             const text = appliance.textContent.toLowerCase();
             if (text.includes(searchTerm)) {
                 appliance.style.display = "block";
             } else {
                 appliance.style.display = "none";
             };
-        });
+        };
     });
 };
 
@@ -492,7 +521,8 @@ function displayAppliancesTags(appliancesList) {
     menuNode.classList.add("menu");
 
     // Ajouter chaque appareil comme un élément de liste (li)
-    appliancesList.forEach(applianceText => {
+    for (let i = 0; i < appliancesList.length; i++) {
+        const applianceText = appliancesList[i];
 
         // Création de l'appareil à ajouter dans le dropdown
         const newNode = document.createElement("li");
@@ -500,7 +530,6 @@ function displayAppliancesTags(appliancesList) {
         newNode.innerHTML = applianceText;
         // Ajouter la liste à votre conteneur dans le DOM
         menuNode.appendChild(newNode);
-
 
         /**
          * Clic sur un appareil dans le dropdown
@@ -524,11 +553,9 @@ function displayAppliancesTags(appliancesList) {
 
             const removeItem = newSelectedItem.querySelector(".btnCancel");
 
-            
             // CHEVRON
             const list = appliancesListDOM.closest(".list");
             const chevron = appliancesListDOM.closest('.dropdown').querySelector(".fa-chevron-down");
-            // // CHEVRON
             list.classList.remove("list-open");
             chevron.classList.remove("fa-chevron-down-rotate");
 
@@ -543,7 +570,7 @@ function displayAppliancesTags(appliancesList) {
                 startSortRecipes();
             }); 
         });
-    });
+    };
     appliancesListDOM.appendChild(menuNode);
     // filtre des appareils en fonction de la barre de recherche du dropdown
     filterAppliances();
@@ -557,17 +584,20 @@ function getUstensilesList(recipes) {
     const ustensilesList = new Set();
     
     // Récupération des ustensiles
-    recipes.forEach(recipe => {
-        recipe.ustensils.forEach(ustensile => {
+    for (let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
+        for (let j = 0; j < recipe.ustensils.length; j++) {
+            const ustensile = recipe.ustensils[j];
             ustensilesList.add(ustensile.toLowerCase());
-        });
-    });
+        };
+    };
 
     // Suppression des ustensiles déjà sélectionnés
     const selectedTagUstensils = document.querySelectorAll("#selectedUstensilsList li");
-    selectedTagUstensils.forEach(tag => {
+    for (let k = 0; k < selectedTagUstensils.length; k++) {
+        const tag = selectedTagUstensils[k];
         ustensilesList.delete(tag.innerText.toLowerCase());
-    });
+    };
 
     // tri par ordre alphabétique en prenant en compte les accents
     const sortedUstensils = Array.from(ustensilesList).sort((a, b) => {
@@ -589,14 +619,15 @@ function filterUstensils() {
     searchBar.addEventListener('input', function() {
         const searchTerm = searchBar.value.toLowerCase();
 
-        ustensilsList.forEach(ustensil => {
+        for (let i = 0; i < ustensilsList.length; i++) {
+            const ustensil = ustensilsList[i];
             const text = ustensil.textContent.toLowerCase();
             if (text.includes(searchTerm)) {
                 ustensil.style.display = 'block';
             } else {
                 ustensil.style.display = 'none';
             };
-        });
+        };
     });
 };
 
@@ -611,7 +642,9 @@ function displayUstensilesTags(ustensilesList) {
     menuNode.classList.add("menu");
 
     // Ajouter chaque ustensiles comme un élément de liste (li)
-    ustensilesList.forEach(ustensileText => {
+    for (let i = 0; i < ustensilesList.length; i++) {
+        const ustensileText = ustensilesList[i];
+    
         // Création de l'ustensile à ajouter dans le dropdown
         const newNode = document.createElement("li");
         newNode.classList.add("menu__item");
@@ -645,7 +678,6 @@ function displayUstensilesTags(ustensilesList) {
             // CHEVRON
             const list = ustensilesListDom.closest(".list");
             const chevron = ustensilesListDom.closest('.dropdown').querySelector(".fa-chevron-down");
-            // CHEVRON
             list.classList.remove("list-open");
             chevron.classList.remove("fa-chevron-down-rotate");
 
@@ -659,9 +691,8 @@ function displayUstensilesTags(ustensilesList) {
                 // Lancement du trie car modification de la liste de tags
                 startSortRecipes();
             });
-
         });
-    });
+    };
     ustensilesListDom.appendChild(menuNode);
     // filtre des ustensiles en fonction de la barre de recherche du dropdown
     filterUstensils();
@@ -680,10 +711,8 @@ init();
 /**
  * ROADMAP: 
  * - Terminer la fiche d'investigation
- * - Sur une autre branche de git, remplacer toutes les boucles for par des boucles map
  * - Faire le benchmark de différences de performences entre les algo
  * - Checker que l'algorigramme fais bien ce que ton code il fait
- * - Faire une nouvelle branche avec la V2 (remplace foreach par for)
  * - Bien relire le code et le comprendre !
  */
 
