@@ -1,3 +1,23 @@
+/**
+ * ROADMAP: 
+ * - Terminer la fiche d'investigation
+ * - Faire le benchmark de différences de performences entre les algo
+ * - Checker que l'algorigramme fais bien ce que ton code fait
+ * - Bien relire le code et le comprendre !
+ */
+
+/**
+ * DRY : Don't Repeat Yourself => 2x même code (ou similaire) => optimisation
+ * 1 fonction = pas plus de 3 paramètres
+ * 
+ * 1 fonction = 1 tâche
+ * 1 fonction = 1 nom complet en anglais et compréhensible et précis
+ */
+
+
+
+
+
 // function getIngredients(ingredients) {
 //     ingredients.recipes[0].ingredients.forEach(ingredient => {
 //         const divIngredients = document.createElement("div");
@@ -175,7 +195,7 @@
 
 
 
-A JETER
+//A JETER
     // /**
 //  * Trie les recettes via les filtres ingredients
 //  */
