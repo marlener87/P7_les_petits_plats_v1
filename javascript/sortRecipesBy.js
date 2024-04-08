@@ -1,6 +1,9 @@
 /**
  * Trie les recettes via la barre de recherche
- * @params recipes - Liste de toutes les recettes à trier
+ * Fonction pour filtrer les recettes en fonction de la recherche de l'utilisateur.
+ * Cette fonction prend une liste de recettes et filtre les recettes en fonction de la recherche de l'utilisateur. La recherche peut être basée sur le titre de la recette, sa description ou ses ingrédients.
+ * @param {Object[]} recipes - Liste des recettes à filtrer.
+ * @returns {Object[]} - recipesA1 - Liste des recettes filtrées en fonction de la recherche de l'utilisateur.
  */
 function sortRecipesBySearch(recipes) {
     const recipesA1 = [];
@@ -32,18 +35,20 @@ function sortRecipesBySearch(recipes) {
                         recipesA1.push(recipe);
                         ingredientFound = true;
                         return; // Sortir de la boucle si un ingrédient est trouvé
-                    };
-                });
-            };       
-        };
-    });
+                    }
+                })
+            }      
+        }
+    })
     return recipesA1;
-};
+}
 
 /**
  * Trie les recettes par les ingrédients sélectionnés
- * @param {*} recipes 
- * @returns 
+ * Fonction pour filtrer les recettes en fonction des ingrédients sélectionnés.
+ * Cette fonction prend une liste de recettes et filtre les recettes en fonction des ingrédients sélectionnés par l'utilisateur.
+ * @param {Object[]} recipes - Liste des recettes à filtrer.
+ * @returns {Object[]} - Liste des recettes filtrées en fonction des ingrédients sélectionnés.
  */
 function sortRecipesByIngredients(recipes) {
     const recipesA2 = new Set(); // Set : pour éviter les doublons de recettes
@@ -72,15 +77,17 @@ function sortRecipesByIngredients(recipes) {
         // Every retourne Vrai si tous les elements du tableau tagsIngredientsSelected respectent la condition recipeIngredientsList.include(tag)
         if(tagsIngredientsSelected.every(tag => recipeIngredientsArray.includes(tag))) {
             recipesA2.add(recipe);
-        };
+        }
     });      
     return Array.from(recipesA2); // Transformation du Set en Tableau
-};
+}
 
 /**
  * Trie les recettes par les appareils sélectionnés
- * @param {*} recipes 
- * @returns recipesA3 - liste des recettes correspondant aux appareils sélectionnés
+ * Fonction pour filtrer les recettes en fonction des appareils sélectionnés.
+ * Cette fonction prend une liste de recettes et filtre les recettes en fonction des appareils sélectionnés par l'utilisateur.
+ * @param {Object[]} recipes - Liste des recettes à filtrer.
+ * @returns {Object[]} - Liste des recettes filtrées en fonction des appareils sélectionnés.
  */
 function sortRecipesByAppareils(recipes) {
     const recipesA3 = new Set(); // Set : pour éviter les doublons de recettes
@@ -98,15 +105,17 @@ function sortRecipesByAppareils(recipes) {
 
         if(tagsAppliancesSelected.includes(recipeAppliance)) {
             recipesA3.add(recipe);
-        };
+        }
     });
     return Array.from(recipesA3); // Transformation du Set en Tableau
-};
+}
 
 /**
  * Trie les recettes par les ustensiles sélectionnés
- * @param {*} recipes 
- * @returns recipesA4 - liste des recettes correspondant aux ustensiles sélectionnés
+ * Fonction pour filtrer les recettes en fonction des ustensiles sélectionnés.
+ * Cette fonction prend une liste de recettes et filtre les recettes en fonction des ustensiles sélectionnés par l'utilisateur.
+ * @param {Object[]} recipes - Liste des recettes à filtrer.
+ * @returns {Object[]} - Liste des recettes filtrées en fonction des ustensiles sélectionnés.
  */
 function sortRecipesByUstensiles(recipes) {
     const recipesA4 = new Set(); // Set : pour éviter les doublons de recettes
@@ -124,7 +133,7 @@ function sortRecipesByUstensiles(recipes) {
         
         if(tagsUstensilsSelected.every(tag => recipeUstensilsArray.includes(tag))) {
             recipesA4.add(recipe);
-        };
+        }
     });
     return Array.from(recipesA4); // Transformation du Set en Tableau
-};
+}

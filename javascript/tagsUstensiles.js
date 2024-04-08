@@ -1,6 +1,10 @@
 ///////////////////////////////// USTENSILES /////////////////////////////////////////
 /**
  * Récupère tous les ustensiles de recipes
+ * * Fonction pour récupérer une liste d'ustensiles à partir d'une liste de recettes, en excluant ceux déjà sélectionnés.
+ * Cette fonction parcourt la liste des recettes et extrait les ustensiles de chaque recette, puis exclut ceux qui sont déjà sélectionnés. Enfin, elle trie la liste d'ustensiles par ordre alphabétique en tenant compte des accents.
+ * @param {Object[]} recipes - Liste des recettes à partir desquelles extraire les ustensiles.
+ * @returns {string[]} - sortedUstensils - Liste des ustensiles triés par ordre alphabétique et prêts à être affichés.
  */
 function getUstensilesList(recipes) {
     const ustensilesList = new Set();
@@ -23,10 +27,14 @@ function getUstensilesList(recipes) {
         return a.localeCompare(b, 'fr', { sensitivity: 'base' });
     });
     return sortedUstensils;
-}; 
+}
 
 /**
  * permet de filtrer les ustensiles par rapport à ce qui est tapé dans la barre de recherche du dropdown
+ * Fonction pour filtrer les ustensiles dans une liste en fonction de la saisie de l'utilisateur.
+ * Cette fonction réinitialise d'abord la barre de recherche des ustensiles. Ensuite, elle écoute les événements de saisie dans la barre de recherche et filtre la liste des ustensiles en fonction du terme de recherche.
+ * @function filterUstensils
+ * @returns {void}
  */
 function filterUstensils() {
     // Réinitialisation de l'affichage des ustensiles tags
@@ -44,13 +52,17 @@ function filterUstensils() {
                 ustensil.style.display = 'block';
             } else {
                 ustensil.style.display = 'none';
-            };
+            }
         });
     });
-};
+}
 
 /**
  * Affiche les tags ustensiles
+ * Fonction pour afficher les tags d'ustensiles dans un menu déroulant.
+ * Cette fonction prend une liste d'ustensiles et les affiche dans un menu déroulant. Elle permet également d'ajouter des tags d'ustensiles sélectionnés à une liste.
+ * @param {string[]} ustensilesList - Liste des ustensiles à afficher.
+ * @returns {void}
  */
 function displayUstensilesTags(ustensilesList) {
     // Réinitialisation de l'affichage des ustensiles tags
@@ -114,4 +126,4 @@ function displayUstensilesTags(ustensilesList) {
     ustensilesListDom.appendChild(menuNode);
     // filtre des ustensiles en fonction de la barre de recherche du dropdown
     filterUstensils();
-};
+}

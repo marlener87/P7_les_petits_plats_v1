@@ -1,6 +1,8 @@
 //////////////////////// APPAREILS //////////////////////////////////////////////////
 /**
  * Récupère tous les appareils de recipes
+ * @param {string} recipes 
+ * @returns sortedAppliances retourne les appareils triés par ordre alphabétique
  */
 function getAppliancesList(recipes) {
     const appliancesList = new Set();
@@ -21,11 +23,14 @@ function getAppliancesList(recipes) {
         return a.localeCompare(b, 'fr', { sensitivity: 'base' });
     });
     return sortedAppliances;
-};
+}
 
 /**
- * permet de filtrer les appareils par rapport à ce qui est tapé dans la barre de recherche du dropdown
- */
+ * Fonction pour filtrer les appareils électroménagers.
+ * Cette fonction permet de filtrer une liste d'appareils électroménagers en fonction de la saisie utilisateur dans un champ de recherche.
+ * @function filterAppliances
+ * @returns {void}
+*/
 function filterAppliances() {
     // Réinitialisation de l'affichage des ustensiles tags
     searchInputAppliances.value = '';
@@ -42,14 +47,17 @@ function filterAppliances() {
                 appliance.style.display = "block";
             } else {
                 appliance.style.display = "none";
-            };
+            }
         });
     });
-};
+}
 
-/** 
- * Affiche les tags appareils
- **/
+/**
+ * Fonction pour afficher les tags d'appareils électroménagers.
+ * Cette fonction prend une liste d'appareils électroménagers et les affiche dans un menu déroulant. Elle permet également d'ajouter des tags d'appareils sélectionnés à une liste.
+ * @param {string[]} appliancesList - Liste des appareils électroménagers à afficher.
+ * @returns {void}
+ */
 function displayAppliancesTags(appliancesList) {
     // Réinitialisation de l'affichage des appareils tags
     appliancesListDOM.innerHTML = '';
@@ -113,4 +121,4 @@ function displayAppliancesTags(appliancesList) {
     appliancesListDOM.appendChild(menuNode);
     // filtre des appareils en fonction de la barre de recherche du dropdown
     filterAppliances();
-};
+}

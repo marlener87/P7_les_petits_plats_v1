@@ -20,7 +20,11 @@ const searchInputUstensils = document.querySelector("#searchInputUstensils");
 
 /**
  * Récupère les données dans le fichier recipes.json
- * @returns Liste des recettes 
+ * Fonction asynchrone pour récupérer la liste des recettes à partir d'un fichier JSON.
+ * Cette fonction effectue une requête fetch pour récupérer les données à partir du fichier JSON spécifié. Elle retourne une promesse qui sera résolue avec la liste des recettes une fois qu'elles auront été récupérées et analysées.
+ * @async
+ * @function getRecipes
+ * @returns {Promise<Object[]>} - Une promesse qui sera résolue avec la liste des recettes.
  */
 async function getRecipes() {
    return await fetch("/javascript/recipes.json").then((res) => {
@@ -29,11 +33,14 @@ async function getRecipes() {
     .then(data => {
         return data.recipes;
     });
-};
+}
 
 /**
  * Ajoute dans le DOM toutes les recettes reçues en paramètre
- * @params {object} listRecipes - La liste des recettes à afficher 
+ * Fonction pour afficher les recettes dans l'interface utilisateur.
+ * Cette fonction prend une liste de recettes et les affiche dans l'interface utilisateur sous forme de cartes.
+ * @param {Object[]} listRecipes - Liste des recettes à afficher.
+ * @returns {void}
  */
 function displayRecipes(listRecipes) {
     // Réinitialise l'affichage de la liste des recettes
@@ -73,7 +80,7 @@ function displayRecipes(listRecipes) {
         // On complète le contenu du noeud de la recette
         divCard.innerHTML = `
             <div class="cardImg">
-                <img src="assets/imgRecettes/${item.image}" alt="limonade" class="imgRecipe">
+                <img src="assets/imgRecettes/${item.image}" alt="${item.image}" class="imgRecipe">
                 <div class="timeRecipe">
                     <span class="time">${item.time} min</span>
                 </div>
@@ -98,10 +105,13 @@ function displayRecipes(listRecipes) {
         // On ajoute le nouveau noeud de la recette dans le DOM
         recipesDOM.appendChild(divCard);
     });
-};
+}
 
 /**
 * Affiche dans le DOM le nombre de recettes
+* Fonction pour afficher le nombre total de recettes affichées dans l'interface utilisateur.
+ * Cette fonction compte le nombre total de cartes de recettes affichées dans l'interface utilisateur et met à jour l'élément DOM correspondant avec ce nombre.
+* @returns {void}
 */
 function displayCountTotalRecipes() {
     const displayedRecipeCards = document.querySelectorAll(".card");
@@ -109,28 +119,42 @@ function displayCountTotalRecipes() {
     totalRecipesDOM.innerHTML = displayedRecipeCards.length +
         ' recette' + 
         (displayedRecipeCards.length > 1 ? 's' : '');
-};
+}
 
 /**
  * Lance l'algorithme de tri quand on valide le formulaire
+ * Écouteur d'événement pour le soumission du formulaire.
+ * Empêche le comportement par défaut du formulaire, puis démarre le processus de tri des recettes.
+ * @param {Event} event - L'événement de soumission du formulaire.
+ * @returns {void}
  */
 formDOM.addEventListener('submit',(event) => {
     event.preventDefault();
     startSortRecipes();
 });
 
+/**
+ * Écouteur d'événement pour la saisie dans la barre de recherche.
+ * Démarre le processus de tri des recettes à chaque saisie dans la barre de recherche.
+ * @returns {void}
+ */
 inputSearchDOM.addEventListener('keyup', () => {
     startSortRecipes();
 });
 
 /**
  * Fonction qui récupère toutes les recettes, les trie en fonction des tags sélectionnés
+ * Fonction asynchrone pour démarrer le processus de tri et d'affichage des recettes.
+ * Cette fonction récupère toutes les recettes à partir du fichier JSON, trie les recettes, affiche les tags d'ingrédients, d'appareils et d'ustensiles, puis affiche les recettes triées dans l'interface utilisateur.
+ * @async
+ * @function startSortRecipes
+ * @returns {void}
  */
 async function startSortRecipes() {
     // Récupération de toutes les recettes dans le fichier .json
     const listRecipes = await getRecipes();
     
-    // Tri des recettes avec l'algorithme custom
+    // Tri des recettes avec l'algorithme
     const recipesA4 = sortRecipes(listRecipes);
     
     // Affichage tags ingrédients
@@ -148,11 +172,14 @@ async function startSortRecipes() {
     // Il faut afficher recipesA4
     displayRecipes(recipesA4);
     displayCountTotalRecipes();
-};
+}
 
 /**
  * Trie les recettes
- *  @params recipes - Liste de toutes les recettes à trier
+ * Fonction pour trier les recettes en utilisant différents critères.
+ * Cette fonction prend une liste de recettes et les trie successivement en utilisant les critères de recherche, d'ingrédients, d'appareils et d'ustensiles.
+ * @param {Object[]} recipes - Liste des recettes à trier.
+ * @returns {Object[]} - recipesA4 - Liste des recettes triées.
  */
 function sortRecipes(recipes) {
     const recipesA1 = sortRecipesBySearch(recipes);
@@ -161,12 +188,15 @@ function sortRecipes(recipes) {
     const recipesA4 = sortRecipesByUstensiles(recipesA3);
 
     return recipesA4;
-};
+}
 
 /**
  * fonction pour réinsérer les tags supprimés, et les trier par ordre alphabétique
- * @param {*} menuNode 
- * @param {*} newNode 
+ * Fonction pour insérer un nouveau nœud dans un élément de menu trié.
+ * Cette fonction prend un élément de menu existant et un nouveau nœud à insérer, puis insère le nouveau nœud dans l'élément de menu de manière triée en fonction du texte des nœuds.
+ * @param {HTMLElement} menuNode - L'élément de menu dans lequel le nouveau nœud doit être inséré.
+ * @param {HTMLElement} newNode - Le nouveau nœud à insérer dans l'élément de menu.
+ * @returns {void}
  */
 function insertSortedNode(menuNode, newNode) {
     const nodes = menuNode.childNodes;
@@ -182,14 +212,19 @@ function insertSortedNode(menuNode, newNode) {
         menuNode.appendChild(newNode);
     } else {
         menuNode.insertBefore(newNode, nodes[index]);
-    };
-};
+    }
+}
 
 /**
  * 1ère fonction de la page qui est appelée et qui appelle toutes les autres
+ * Fonction d'initialisation de l'application.
+ * Cette fonction démarre le processus de tri des recettes au chargement de l'application.
+ * @async
+ * @function init
+ * @returns {void}
  */
 async function init(){
     startSortRecipes();
-};
+}
 
 init();
