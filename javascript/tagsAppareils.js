@@ -5,6 +5,7 @@
  * @returns sortedAppliances retourne les appareils triés par ordre alphabétique
  */
 function getAppliancesList(recipes) {
+    // new Set() = création d'un objet, collection d'éléments uniques, pas de duplications
     const appliancesList = new Set();
 
     // Récupération des appareils
@@ -27,7 +28,7 @@ function getAppliancesList(recipes) {
 
 /**
  * Fonction pour filtrer les appareils électroménagers.
- * Cette fonction permet de filtrer une liste d'appareils électroménagers en fonction de la saisie utilisateur dans un champ de recherche.
+ * Cette fonction permet de filtrer une liste d'appareils électroménagers en fonction de la saisie utilisateur dans le champ de recherche du dropdown.
  * @function filterAppliances
  * @returns {void}
 */

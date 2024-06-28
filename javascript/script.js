@@ -11,7 +11,7 @@ const ustensilesListDom = document.getElementById("ustensiles");
 const selectedUstensilsList = document.getElementById("selectedUstensilsList");
 
 // Partie formulaire
-const formDOM = document.querySelector("#searchForm");
+const formDOM = document.querySelector("#searchForm"); // barre de recherche
 const inputSearchDOM = document.querySelector("#searchInput");
 const searchInputIngredients = document.querySelector("#searchInputIngredients");
 const searchInputAppliances = document.querySelector("#searchInputAppliances");
@@ -27,7 +27,7 @@ const searchInputUstensils = document.querySelector("#searchInputUstensils");
  * @returns {Promise<Object[]>} - Une promesse qui sera résolue avec la liste des recettes.
  */
 async function getRecipes() {
-   return await fetch("/javascript/recipes.json").then((res) => {
+   return await fetch("./javascript/recipes.json").then((res) => {
         return res.json();
     })
     .then(data => {
@@ -50,7 +50,7 @@ function displayRecipes(listRecipes) {
         recipesDOM.innerHTML = `Aucune recette ne correspond à '${inputSearchDOM.value}'.`
     }
 
-    // On parcourt la liste des recettes reçue en paramètre
+    // On parcourt la liste des recettes reçues en paramètre
     listRecipes.forEach(item => {
         // On crée le nouveau noeud correspondant à la carte d'une recette
         const divCard = document.createElement("a");
@@ -123,7 +123,7 @@ function displayCountTotalRecipes() {
 
 /**
  * Lance l'algorithme de tri quand on valide le formulaire
- * Écouteur d'événement pour le soumission du formulaire.
+ * Écouteur d'événement pour la soumission du formulaire.
  * Empêche le comportement par défaut du formulaire, puis démarre le processus de tri des recettes.
  * @param {Event} event - L'événement de soumission du formulaire.
  * @returns {void}
@@ -143,6 +143,7 @@ inputSearchDOM.addEventListener('keyup', () => {
 });
 
 /**
+ * voir les fichiers js tagsIngredients, tagsAppareils et tagsUstensiles
  * Fonction qui récupère toutes les recettes, les trie en fonction des tags sélectionnés
  * Fonction asynchrone pour démarrer le processus de tri et d'affichage des recettes.
  * Cette fonction récupère toutes les recettes à partir du fichier JSON, trie les recettes, affiche les tags d'ingrédients, d'appareils et d'ustensiles, puis affiche les recettes triées dans l'interface utilisateur.
@@ -175,6 +176,7 @@ async function startSortRecipes() {
 }
 
 /**
+ * voir sortRecipesBy.js
  * Trie les recettes
  * Fonction pour trier les recettes en utilisant différents critères.
  * Cette fonction prend une liste de recettes et les trie successivement en utilisant les critères de recherche, d'ingrédients, d'appareils et d'ustensiles.

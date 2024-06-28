@@ -59,7 +59,7 @@ function filterIngredients() {
 
 /**
  * Affiche les tags ingredients
- *  * Fonction pour afficher les tags d'ingrédients dans un menu déroulant.
+ * Fonction pour afficher les tags d'ingrédients dans un menu déroulant.
  * Cette fonction prend une liste d'ingrédients et les affiche dans un menu déroulant. Elle permet également d'ajouter des tags d'ingrédients sélectionnés à une liste.
  * @param {string[]} ingredientsList - Liste des ingrédients à afficher.
  * @returns {void}
